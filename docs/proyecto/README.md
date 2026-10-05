@@ -22,6 +22,10 @@ La documentación identifica como usuarios finales:
 - **Personal administrativo/de seguridad:** gestiona accesos y verifica identidades mediante registros.
 - **Instituciones:** buscan mejorar seguridad, reducir costos operativos y fortalecer la confianza.
 
+## Gantt
+
+Consulta el [Gantt completo](GANTT.md), con el diagrama y el detalle de fechas/responsables.
+
 ## Cronograma tentativo
 
 | Actividad | Inicio | Fin | Responsable |
