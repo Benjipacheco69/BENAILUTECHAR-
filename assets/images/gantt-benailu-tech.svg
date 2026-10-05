@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="785" viewBox="0 0 1600 785">
+  <rect width="1600" height="785" fill="#ffffff"/>
+  <text x="468" y="42" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" fill="#111">Diagrama de Gantt tentativo - Benailu Tech (oct - dic 2026)</text>
+  <g stroke="#dddddd" stroke-width="1">
+    <line x1="495" y1="54" x2="495" y2="706"/><line x1="592" y1="54" x2="592" y2="706"/>
+    <line x1="689" y1="54" x2="689" y2="706"/><line x1="785" y1="54" x2="785" y2="706"/>
+    <line x1="882" y1="54" x2="882" y2="706"/><line x1="979" y1="54" x2="979" y2="706"/>
+    <line x1="1075" y1="54" x2="1075" y2="706"/><line x1="1171" y1="54" x2="1171" y2="706"/>
+    <line x1="1268" y1="54" x2="1268" y2="706"/><line x1="1364" y1="54" x2="1364" y2="706"/>
+    <line x1="1461" y1="54" x2="1461" y2="706"/><line x1="1557" y1="54" x2="1557" y2="706"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#222" text-anchor="end">
+    <text x="455" y="113">Análisis de requisitos</text>
+    <text x="455" y="191">Diseño de arquitectura y prototipo de interfaz</text>
+    <text x="455" y="270">Base de datos (usuarios y registros de acceso)</text>
+    <text x="455" y="348">Módulo de huella digital (lector y comparación)</text>
+    <text x="455" y="427">Interfaz móvil y pantalla de resultados</text>
+    <text x="455" y="505">Integración de módulos</text>
+    <text x="455" y="584">Pruebas y corrección de errores</text>
+    <text x="455" y="662">Documentación y presentación final</text>
+  </g>
+  <g>
+    <rect x="495" y="84" width="165" height="43" fill="#596b91"/>
+    <rect x="592" y="163" width="262" height="43" fill="#3c8c5a"/>
+    <rect x="689" y="241" width="261" height="43" fill="#2874a6"/>
+    <rect x="689" y="319" width="358" height="43" fill="#c86d25"/>
+    <rect x="785" y="398" width="359" height="43" fill="#3c8c5a"/>
+    <rect x="1075" y="476" width="165" height="43" fill="#596b91"/>
+    <rect x="1171" y="555" width="166" height="43" fill="#3c8c5a"/>
+    <rect x="1268" y="633" width="166" height="43" fill="#596b91"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#222">
+    <text x="667" y="111">05/10 – 16/10</text>
+    <text x="862" y="190">12/10 – 30/10</text>
+    <text x="958" y="268">19/10 – 06/11</text>
+    <text x="1055" y="346">19/10 – 13/11</text>
+    <text x="1152" y="425">26/10 – 20/11</text>
+    <text x="1248" y="503">16/11 – 27/11</text>
+    <text x="1345" y="582">23/11 – 04/12</text>
+    <text x="1442" y="660">30/11 – 11/12</text>
+  </g>
+  <g stroke="#111" stroke-width="1.5" fill="none"><path d="M468 54V706H1572"/><path d="M495 706v7M592 706v7M689 706v7M785 706v7M882 706v7M979 706v7M1075 706v7M1171 706v7M1268 706v7M1364 706v7M1461 706v7M1557 706v7"/></g>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#222" text-anchor="middle">
+    <text transform="translate(510 738) rotate(-45)">05/10</text><text transform="translate(607 738) rotate(-45)">12/10</text>
+    <text transform="translate(704 738) rotate(-45)">19/10</text><text transform="translate(800 738) rotate(-45)">26/10</text>
+    <text transform="translate(897 738) rotate(-45)">02/11</text><text transform="translate(994 738) rotate(-45)">09/11</text>
+    <text transform="translate(1090 738) rotate(-45)">16/11</text><text transform="translate(1186 738) rotate(-45)">23/11</text>
+    <text transform="translate(1283 738) rotate(-45)">30/11</text><text transform="translate(1379 738) rotate(-45)">07/12</text>
+    <text transform="translate(1476 738) rotate(-45)">14/12</text><text transform="translate(1572 738) rotate(-45)">21/12</text>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#222">
+    <rect x="1426" y="62" width="140" height="128" rx="3" fill="#fff" stroke="#ccc"/>
+    <text x="1496" y="81" text-anchor="middle">Responsable</text>
+    <rect x="1432" y="94" width="34" height="13" fill="#596b91"/><text x="1477" y="106">Todos</text>
+    <rect x="1432" y="118" width="34" height="13" fill="#2874a6"/><text x="1477" y="130">Líder / BD</text>
+    <rect x="1432" y="142" width="34" height="13" fill="#c86d25"/><text x="1477" y="154">Huella</text>
+    <rect x="1432" y="166" width="34" height="13" fill="#3c8c5a"/><text x="1477" y="178">Interfaz</text>
+  </g>
+</svg>
