@@ -24,7 +24,9 @@ La documentación identifica como usuarios finales:
 
 ## Gantt
 
-Consulta el [Gantt completo](GANTT.md), con el diagrama y el detalle de fechas/responsables.
+![Diagrama de Gantt tentativo de Benailu Tech](../../assets/images/gantt-benailu-tech.svg)
+
+[Ver imagen Gantt en tamaño completo](../../assets/images/gantt-benailu-tech.svg) · [Consultar Gantt editable y fechas](GANTT.md)
 
 ## Cronograma tentativo
 
