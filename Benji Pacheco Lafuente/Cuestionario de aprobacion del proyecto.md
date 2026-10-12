@@ -4,8 +4,6 @@
 **Proyecto:** Aplicación móvil de identificación biométrica mediante huella digital  
 **Propósito:** Auditoría de preparación para iniciar el desarrollo.
 
-> Estas respuestas reflejan el estado de planificación descrito en la documentación del repositorio. Las actividades previstas se presentan como pendientes cuando todavía no existe evidencia de que hayan sido implementadas o validadas.
-
 ## 1. Problema y valor
 
 **1. ¿Pueden explicar el problema en menos de 30 segundos sin mencionar ninguna tecnología?**
@@ -235,11 +233,5 @@ El proyecto podría fracasar si el lector no fuera compatible, si el reconocimie
 **52. ¿Ya tienen una estrategia para evitar o controlar cada una de esas condiciones?**
 
 Tenemos estrategias iniciales: probar el lector anticipadamente, validar el reconocimiento con diferentes casos, proteger las plantillas biométricas, distribuir las tareas y realizar pruebas periódicas. Debemos concretar estas medidas en un plan de trabajo y seguimiento.
-
-## Conclusión general
-
-Benailu Tech cuenta con una propuesta clara, objetivos definidos, requisitos funcionales iniciales, una arquitectura preliminar y un cronograma de desarrollo. Sin embargo, todavía es necesario confirmar algunas decisiones técnicas, validar el hardware, precisar los criterios de aceptación y formalizar las responsabilidades del equipo.
-
-El siguiente paso es resolver las dependencias críticas, definir el MVP definitivo y comenzar la implementación por módulos, acompañando el desarrollo con pruebas y documentación.
 
 **Repositorio:** [BENAILUTECHAR-](https://github.com/Benjipacheco69/BENAILUTECHAR-)
