@@ -12,13 +12,15 @@
 
 ## Descripción
 
-El proyecto propone utilizar un teléfono Android ubicado en la entrada de la empresa como terminal de marcación. Los trabajadores utilizarán la cámara del dispositivo para identificarse mediante reconocimiento facial y registrar sus entradas y salidas. Un servidor desarrollado en C# gestionará las operaciones y SQL Server almacenará los datos de trabajadores y asistencias.
+El proyecto contempla utilizar un teléfono Android ubicado en la entrada de la empresa como terminal de marcación. Los trabajadores utilizarán la cámara del dispositivo para identificarse mediante reconocimiento facial. Un servidor desarrollado en C# gestiona las operaciones y SQL Server almacena los datos de trabajadores y asistencias.
 
-El reconocimiento facial es una funcionalidad planificada para la etapa de programación; todavía no se encuentra implementada.
+La primera versión del backend C# ya fue implementada y probada localmente: incluye conexión con SQL Server, administración de trabajadores, registro y consulta de marcaciones, filtro por fecha y reportes básicos. El código fuente del backend y el script SQL todavía deben incorporarse al repositorio.
+
+El reconocimiento facial, la aplicación Android y su integración con el servidor siguen pendientes.
 
 ## Usuarios finales
 
-- **Trabajadores:** realizan sus marcaciones en el teléfono Android compartido.
+- **Trabajadores:** realizarán sus marcaciones en el teléfono Android compartido.
 - **Personal administrativo autorizado:** registra trabajadores y consulta asistencias.
 - **Responsables de la empresa:** revisan los registros y reportes.
 
@@ -26,13 +28,14 @@ El reconocimiento facial es una funcionalidad planificada para la etapa de progr
 
 | Componente | Definición actual |
 |---|---|
-| Terminal de marcación | Teléfono Android compartido |
-| Identificación | Reconocimiento facial |
-| Servidor | C# |
-| Base de datos | SQL Server |
+| Terminal de marcación | Teléfono Android compartido, pendiente |
+| Identificación | Reconocimiento facial, pendiente |
+| Servidor | C# / ASP.NET Core Web API, primera versión local probada |
+| Acceso a datos | Microsoft.Data.SqlClient |
+| Base de datos | SQL Server, utilizada por el backend local |
 | Tecnología de la aplicación Android | Pendiente de definir |
 | Biblioteca y algoritmo facial | Pendiente de definir |
-| Comunicación Android-servidor | Pendiente de diseñar |
+| Comunicación Android-servidor | Pendiente de diseñar e integrar |
 
 ## Gantt
 
@@ -53,7 +56,7 @@ El reconocimiento facial es una funcionalidad planificada para la etapa de progr
 | Pruebas y corrección de errores | 23/11/2026 | 04/12/2026 | Por confirmar |
 | Documentación y presentación final | 30/11/2026 | 11/12/2026 | Todos |
 
-Las fechas son tentativas y deben actualizarse según el avance real del equipo.
+Las fechas son tentativas y deben actualizarse según el avance real del equipo. El backend inicial se adelantó y ya fue probado localmente; la integración completa sigue pendiente.
 
 ## Recursos
 
@@ -65,7 +68,8 @@ Las fechas son tentativas y deben actualizarse según el avance real del equipo.
 
 ### Software
 
-- C# para el servidor.
+- C# / ASP.NET Core para el servidor.
+- Microsoft.Data.SqlClient para el acceso a datos.
 - SQL Server para la base de datos.
 - Tecnología Android y herramientas de reconocimiento facial por seleccionar.
 
@@ -78,16 +82,16 @@ Ya no se considera un lector físico de huellas como dispositivo principal del s
 - Decisión sobre el lugar donde se procesarán los datos biométricos.
 - Protección de la información biométrica y personal.
 - Conectividad entre el teléfono y el servidor.
-- Reglas para distinguir las marcaciones de entrada y salida.
-- Adaptación del modelo de datos existente.
+- Autenticación y autorización para las operaciones del sistema.
+- Reglas adicionales para horarios, tardanzas y ausencias.
+- Incorporación del backend y del script SQL al repositorio.
 
 ## Próximos pasos
 
-1. Validar los requisitos actualizados con el equipo y el docente.
-2. Confirmar los datos que se registrarán de cada trabajador.
-3. Definir la regla de entrada y salida.
-4. Revisar y adaptar el modelo de datos SQL Server antes de modificar la base actual.
-5. Elegir la tecnología de la aplicación Android y el método de reconocimiento facial.
-6. Diseñar la comunicación con el servidor C#.
-7. Implementar, integrar y probar los componentes.
-8. Completar los manuales y la documentación final.
+1. Incorporar el proyecto backend C# a src/backend sin publicar secretos ni archivos generados.
+2. Incorporar un script SQL reproducible a src/database.
+3. Revisar y completar la documentación técnica de la API.
+4. Elegir la tecnología de la aplicación Android y el método de reconocimiento facial.
+5. Diseñar la comunicación segura entre Android y el servidor C#.
+6. Implementar autenticación y autorización.
+7. Integrar, probar y documentar el sistema completo.
