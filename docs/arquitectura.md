@@ -1,23 +1,34 @@
 # Arquitectura
 
-La descripción del flujo y de los componentes se encuentra en [Arquitectura propuesta](arquitectura/README.md).
+La descripción del flujo general y de los componentes se encuentra en [Arquitectura propuesta](arquitectura/README.md).
 
-## Componentes previstos
-
-- **Terminal Android:** interfaz compartida ubicada en la entrada de la empresa; utiliza la cámara para iniciar la marcación facial.
-- **Servidor C#:** gestiona las solicitudes, aplica las reglas de negocio y coordina el acceso a los datos.
-- **Base de datos SQL Server:** almacena los datos de trabajadores, información biométrica protegida y registros de asistencia.
-- **Módulo de reconocimiento facial:** realiza el enrolamiento y la identificación. La biblioteca, el algoritmo y la ubicación del procesamiento todavía deben definirse.
-- **Consultas y reportes:** permiten al personal autorizado revisar las asistencias.
+## Componentes
+- **Terminal Android:** teléfono compartido ubicado en la entrada de la empresa. La aplicación y su interfaz están pendientes.
+- **Servidor C#:** primera versión de una API ASP.NET Core implementada y probada localmente. Gestiona trabajadores y marcaciones.
+- **SQL Server:** base de datos utilizada por el backend local para conservar trabajadores y registros de asistencia.
+- **Módulo de reconocimiento facial:** pendiente de implementación. La biblioteca, el algoritmo y la ubicación del procesamiento todavía deben definirse.
+- **Consultas y reportes:** implementados en la API en una primera versión; permiten consultar marcaciones y obtener conteos por trabajador y periodo.
 
 ## Separación general
+La aplicación Android será el terminal de interacción. El servidor C# concentrará la lógica del sistema y la comunicación con SQL Server. La base de datos conservará la información de manera persistente.
 
-La aplicación Android funciona como terminal de interacción. El servidor C# concentra la lógica del sistema y la comunicación con SQL Server. La base de datos conserva la información de manera persistente.
+En la versión local probada, las solicitudes de marcación se envían mediante HTTP usando el CI del trabajador. Esto es únicamente una forma de probar el backend: todavía no existe integración con reconocimiento facial ni Android.
 
 ## Estado
 
-Arquitectura conceptual propuesta, todavía no implementada. El servidor C# y SQL Server ya son decisiones del proyecto. La tecnología Android, la biblioteca facial, la distribución del procesamiento biométrico, los contratos de comunicación y las medidas concretas de protección deben definirse antes de programar.
+| Componente | Estado |
+|---|---|
+| API C# y conexión SQL Server | Implementadas y probadas localmente |
+| Administración de trabajadores | Implementada y probada localmente |
+| Registro y consulta de marcaciones | Implementados y probados localmente |
+| Filtro por fecha y reporte por periodo | Implementados y probados localmente |
+| Código fuente del backend en GitHub | Pendiente de incorporar |
+| Script SQL de creación de la base | Pendiente de incorporar |
+| Aplicación Android | Pendiente |
+| Reconocimiento facial | Pendiente |
+| Integración Android, reconocimiento y servidor | Pendiente |
+| Autenticación y autorización | Pendientes |
 
 El reconocimiento facial sustituye el planteamiento anterior de lector físico de huellas como dispositivo principal de marcación.
 
-Consultar también [diagramas](diagramas/README.md).
+Consultar también [diagramas](diagramas/README.md) y [documentación de la API](api/README.md).
