@@ -27,3 +27,6 @@ secrets/
 *.pfx
 *.p12
 *.key
+# Configuración local de ASP.NET Core
+**/appsettings.json
+**/appsettings.Development.json
