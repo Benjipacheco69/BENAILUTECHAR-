@@ -1,0 +1,29 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+# IDE
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+# Compilación
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.dll
+*.exe
+# Temporales
+*.tmp
+*.log
+*.bak
+# Secretos
+.env
+.env.*
+!.env.example
+secrets/
+*.pfx
+*.p12
+*.key
