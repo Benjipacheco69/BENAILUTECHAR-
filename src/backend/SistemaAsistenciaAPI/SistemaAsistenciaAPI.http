@@ -1,0 +1,83 @@
+### REGISTRAR TRABAJADOR
+POST https://localhost:7049/api/Trabajadores
+Content-Type: application/json
+
+{
+  "ci": "7654321",
+  "nombres": "Maria",
+  "apellidos": "Lopez"
+}
+
+###
+
+### BUSCAR TRABAJADOR
+GET https://localhost:7049/api/Trabajadores/7654321
+
+###
+
+### LISTAR TRABAJADORES
+GET https://localhost:7049/api/Trabajadores
+
+###
+
+### MODIFICAR TRABAJADOR
+PUT https://localhost:7049/api/Trabajadores/2
+Content-Type: application/json
+
+{
+  "ci": "7654321",
+  "nombres": "Maria Elena",
+  "apellidos": "Lopez"
+}
+
+###
+
+### DESACTIVAR TRABAJADOR
+PATCH https://localhost:7049/api/Trabajadores/2/desactivar
+
+###
+
+### REGISTRAR ENTRADA
+POST https://localhost:7049/api/Marcaciones
+Content-Type: application/json
+
+{
+  "ci": "7654321",
+  "tipo": "ENTRADA"
+}
+
+###
+
+### REGISTRAR SALIDA
+POST https://localhost:7049/api/Marcaciones
+Content-Type: application/json
+
+{
+  "ci": "7654321",
+  "tipo": "SALIDA"
+}
+
+###
+
+### HISTORIAL POR CI
+GET https://localhost:7049/api/Marcaciones/7654321
+
+###
+
+### TODAS LAS MARCACIONES
+GET https://localhost:7049/api/Marcaciones
+
+###
+
+### MARCACIONES POR FECHA
+GET https://localhost:7049/api/Marcaciones?fecha=2026-11-15
+
+###
+
+### REPORTE POR PERIODO
+GET https://localhost:7049/api/Marcaciones/reporte?fechaInicio=2026-11-01&fechaFin=2026-11-15
+
+###
+
+### PROBAR CONEXION SQL SERVER
+GET https://localhost:7049/api/conexion
