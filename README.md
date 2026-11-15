@@ -1,123 +1,97 @@
 # BENAILU TECH
 
 ## Descripción
+**Benailu Tech** es un sistema de control de asistencia para trabajadores. El proyecto contempla un teléfono Android compartido en la entrada de la empresa para realizar marcaciones mediante reconocimiento facial. Un servidor en C# gestiona las operaciones y SQL Server almacena los datos.
 
-**Benailu Tech** es un sistema de control de asistencia mediante reconocimiento facial. La propuesta utiliza un teléfono Android compartido, ubicado en la entrada de la empresa, como terminal donde los trabajadores registran su asistencia. Un servidor desarrollado en **C#** gestiona las operaciones y **SQL Server** almacena la información de los trabajadores y sus marcaciones.
+El proyecto se desarrolla por componentes. Actualmente existe una primera API en C# conectada a SQL Server y probada localmente. La aplicación Android y el reconocimiento facial todavía están pendientes de implementación e integración.
 
-El objetivo es facilitar el registro de entradas y salidas, reducir el registro manual y permitir que el personal autorizado consulte la asistencia.
+## Objetivo
+Facilitar el registro de entradas y salidas, centralizar la información y permitir al personal autorizado consultar historiales y reportes.
 
-> **Estado actual:** proyecto en etapa de análisis, diseño y planificación. El reconocimiento facial y el registro desde Android están previstos para la etapa de programación; todavía no deben considerarse funcionalidades implementadas.
+## Estado actual
 
-## Objetivos
-
-- Registrar los datos de los trabajadores.
-- Preparar el registro de sus datos faciales para identificarlos en el terminal Android.
-- Registrar las marcaciones de entrada y salida con fecha y hora.
-- Centralizar la información en SQL Server mediante un servidor desarrollado en C#.
-- Facilitar la consulta de asistencias y la generación de reportes.
-
-## Funcionamiento general propuesto
-
-1. El personal autorizado registra al trabajador y sus datos básicos.
-2. Se realiza el enrolamiento facial del trabajador durante la etapa de programación.
-3. El trabajador se coloca frente al teléfono Android compartido en la entrada.
-4. El sistema intenta identificarlo mediante reconocimiento facial.
-5. Si la identidad se confirma, se registra la marcación correspondiente con fecha y hora.
-6. El servidor en C# gestiona la operación y guarda los datos en SQL Server.
-7. El personal autorizado puede consultar los registros y reportes.
-
-La regla para distinguir entrada y salida, así como el tratamiento de situaciones excepcionales, debe definirse antes de implementar el registro.
-
-## Componentes previstos
-
-- **Terminal Android:** interfaz utilizada por los trabajadores para realizar la marcación mediante la cámara del teléfono.
-- **Servidor C#:** recibe y gestiona las operaciones del sistema, aplica las reglas de negocio y se comunica con la base de datos.
-- **SQL Server:** almacena los trabajadores, la información biométrica protegida y los registros de asistencia.
-- **Módulo de reconocimiento facial:** permite enrolar e identificar a los trabajadores. La biblioteca, el algoritmo y el lugar exacto donde se realizará el procesamiento todavía deben definirse.
-
-El requisito de C# corresponde al servidor. La tecnología concreta para desarrollar la aplicación Android queda pendiente de confirmación.
-
-## Alcance funcional inicial
-
-- Registro y consulta de trabajadores.
-- Enrolamiento facial de trabajadores autorizados.
-- Identificación facial desde el teléfono Android compartido.
-- Registro de entrada y salida con fecha y hora.
-- Consulta de asistencias.
-- Reportes básicos por trabajador y periodo.
-
-Las funciones anteriores describen el alcance propuesto; no significan que ya estén programadas.
-
-## Tecnologías y decisiones
-
-| Elemento | Decisión actual |
+| Componente | Estado |
 |---|---|
-| Dispositivo de marcación | Teléfono Android compartido |
-| Identificación | Reconocimiento facial |
-| Servidor | C# |
-| Base de datos | SQL Server |
-| Tecnología de la aplicación Android | Pendiente de definir |
-| Biblioteca y algoritmo facial | Pendiente de definir |
-| Comunicación entre Android y servidor | Pendiente de diseñar |
+| API/servidor en C# | Implementado y probado localmente en su primera versión |
+| Conexión con SQL Server | Probada localmente |
+| Registro y administración de trabajadores | Implementado y probado |
+| Registro de entradas y salidas | Implementado y probado con solicitudes HTTP |
+| Historial y consulta de marcaciones | Implementado y probado |
+| Filtro de marcaciones por fecha | Implementado y probado |
+| Reporte de cantidades por trabajador y periodo | Implementado y probado |
+| Aplicación Android | Pendiente |
+| Reconocimiento facial | Pendiente |
+| Integración Android-servidor | Pendiente |
+| Autenticación y autorización | Pendientes |
+| Publicación del código backend en este repositorio | Pendiente |
 
-El proyecto ya no contempla un lector físico de huellas como dispositivo principal de marcación.
+**Importante:** las pruebas del servidor se realizaron localmente. El código fuente del backend y el script de base de datos todavía deben incorporarse al repositorio para que otros integrantes puedan reproducir la ejecución. El backend local no está desplegado ni integrado con Android.
+
+## Funcionamiento previsto
+1. El personal autorizado registra los datos básicos de cada trabajador.
+2. Se realiza el enrolamiento facial cuando el módulo esté implementado.
+3. El trabajador utiliza el teléfono Android compartido en la entrada.
+4. El módulo facial intenta identificarlo.
+5. Una vez integrada y validada la identificación, se solicita al servidor registrar la marcación.
+6. El servidor aplica las reglas de asistencia y guarda la información en SQL Server.
+7. El personal autorizado consulta el historial y los reportes.
+
+En la versión actual del backend, las marcaciones se prueban mediante solicitudes HTTP usando el CI del trabajador. Todavía no existe verificación facial conectada a este proceso.
+
+## Funcionalidades del servidor implementadas
+- Registrar trabajadores.
+- Consultar trabajadores por CI y listar trabajadores.
+- Modificar datos de trabajadores.
+- Desactivar trabajadores.
+- Registrar marcaciones de tipo ENTRADA y SALIDA.
+- Validar que las marcaciones alternen entre entrada y salida durante el día.
+- Consultar el historial de marcaciones por CI.
+- Consultar todas las marcaciones.
+- Filtrar marcaciones por fecha.
+- Generar un resumen de entradas, salidas y total de marcaciones por trabajador en un periodo.
+
+El reporte actual cuenta marcaciones; no calcula horas trabajadas, tardanzas, ausencias ni cumplimiento de horarios.
+
+## Tecnologías
+
+| Elemento | Tecnología/estado |
+|---|---|
+| Backend | C# / ASP.NET Core Web API |
+| Acceso a datos | Microsoft.Data.SqlClient |
+| Base de datos | Microsoft SQL Server |
+| Terminal de marcación | Teléfono Android compartido, pendiente |
+| Reconocimiento | Facial, pendiente |
+| Comunicación Android-servidor | Pendiente de definir e integrar |
 
 ## Privacidad y seguridad
-
-Los datos faciales son información biométrica sensible. El diseño debe limitar su acceso, proteger su almacenamiento y evitar conservar fotografías completas si no son necesarias. Se evaluará el uso de representaciones biométricas protegidas y se definirán las medidas concretas antes de programar. También deberán establecerse permisos para consultar y administrar los registros.
+Los datos personales y biométricos deben protegerse. No se deben subir contraseñas, cadenas de conexión locales, datos biométricos reales ni archivos de configuración con secretos. La versión actual es un prototipo de desarrollo: antes de utilizarla con trabajadores reales se debe implementar autenticación, autorización, protección de comunicaciones y controles adecuados para los datos biométricos.
 
 ## Estructura del repositorio
+- docs/: documentación del proyecto.
+- src/backend/: ubicación prevista para el proyecto C#.
+- src/database/: ubicación prevista para scripts SQL.
+- src/frontend/: ubicación prevista para la aplicación Android.
+- tests/: pruebas.
+- assets/: recursos.
 
-```text
-BENAILUTECHAR-/
-├── README.md
-├── docs/
-│   ├── proyecto/
-│   ├── requisitos/
-│   ├── arquitectura/
-│   ├── diagramas/
-│   ├── api/
-│   └── manuales/
-├── src/
-│   ├── frontend/
-│   ├── backend/
-│   ├── database/
-│   └── shared/
-├── tests/
-├── assets/
-└── scripts/
-```
-
-Las carpetas de código y pruebas deben completarse durante la implementación. La presencia de una carpeta en el repositorio no significa que el componente ya esté desarrollado.
+Las carpetas src/backend y src/database están preparadas, pero el código backend y el script SQL aún deben subirse. La estructura no implica que esos archivos ya estén presentes.
 
 ## Documentación
-
 - [Visión y alcance](docs/vision-y-alcance.md)
-- [Requisitos — índice](docs/requisitos.md) y [especificación detallada](docs/requisitos/README.md)
-- [Arquitectura — índice](docs/arquitectura.md) y [flujo propuesto](docs/arquitectura/README.md)
+- [Requisitos](docs/requisitos.md)
+- [Arquitectura general](docs/arquitectura.md)
+- [Arquitectura propuesta y flujo](docs/arquitectura/README.md)
+- [Documentación de la API y ejemplos](docs/api/README.md)
 - [Proyecto y planificación](docs/proyecto/README.md)
-- [Planificación e hitos](docs/planificacion/planificacion.md)
-- [Seguimiento](docs/planificacion/seguimiento.md)
-- [Gantt](docs/proyecto/GANTT.md)
+- [Seguimiento de actividades](docs/planificacion/seguimiento.md)
+- [Cronograma Gantt](docs/proyecto/GANTT.md)
 - [Diagramas](docs/diagramas/README.md)
 - [Integrantes y roles](docs/equipo/integrantes-y-roles.md)
 - [Acuerdos de trabajo](docs/equipo/acuerdos-de-trabajo.md)
 - [Manuales](docs/manuales/README.md)
 
-## Entorno y ejecución
-
-Todavía no se publican instrucciones de instalación o ejecución porque la solución de programación, la aplicación Android, el servidor y sus dependencias deben implementarse y probarse. Cuando exista una versión ejecutable, se documentarán los requisitos y pasos reales para abrirla y ejecutarla.
-
-## Cronograma
-
-El cronograma de octubre a diciembre de 2026 es una planificación inicial. Debido al cambio de reconocimiento por huella a reconocimiento facial desde Android, el equipo debe revisar las actividades, fechas y responsables. No se debe interpretar una fecha planificada como evidencia de que una tarea ya fue completada.
-
-Consultar el [Gantt del proyecto](docs/proyecto/GANTT.md).
+## Ejecución
+Las instrucciones definitivas se agregarán cuando el backend y su script de base de datos estén versionados. Para ejecutar la versión local actual se requiere Visual Studio, el SDK de .NET utilizado por el proyecto, SQL Server y una cadena de conexión configurada localmente. No se debe publicar la cadena de conexión personal.
 
 ## Colaboración
-
-El trabajo se organizará mediante Issues y Pull Requests. La rama principal debe mantenerse estable y los cambios deben integrarse después de su revisión.
-
-- [Cómo contribuir](CONTRIBUTING.md)
-- [Historial de cambios](CHANGELOG.md)
-- [Política de seguridad](SECURITY.md)
+Los cambios deben organizarse mediante commits descriptivos y revisión del equipo. Cada integrante debe coordinar la integración de sus componentes para evitar sobrescribir el trabajo de los demás.
