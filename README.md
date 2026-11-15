@@ -1,52 +1,72 @@
-# BENAILUTECHAR
+# BENAILU TECH
 
 ## Descripción
 
-**Benailu Tech** es un proyecto de identificación biométrica mediante huella digital, planteado como una aplicación móvil que permite identificar usuarios registrados y registrar sus accesos en una base de datos.
+**Benailu Tech** es un sistema de control de asistencia mediante reconocimiento facial. La propuesta utiliza un teléfono Android compartido, ubicado en la entrada de la empresa, como terminal donde los trabajadores registran su asistencia. Un servidor desarrollado en **C#** gestiona las operaciones y **SQL Server** almacena la información de los trabajadores y sus marcaciones.
 
-El sistema busca facilitar una identificación rápida y segura, reduciendo riesgos de suplantación de identidad. El flujo previsto incluye captura de huella, validación de calidad, extracción de minucias, comparación con plantillas registradas, registro del intento y respuesta al usuario.
+El objetivo es facilitar el registro de entradas y salidas, reducir el registro manual y permitir que el personal autorizado consulte la asistencia.
 
-> **Estado:** análisis de requisitos, planificación y definición de arquitectura.
-
-## Equipo
-
-Según la documentación disponible:
-
-- AINHOA ALMUDENA FLORES VIDAL
-- ARTURO GONZALES RUFINO
-- Benji Pacheco Lafuente
-- Luis Ángel Rocha Paco
-
-**Nota:** la documentación académica recibida enumera explícitamente a Ainhoa, Benji y Luis. La composición definitiva del equipo y la asignación nominal de roles deben confirmarse.
-
-## Roles definidos
-
-- **Líder y Base de Datos:** crear y organizar la base de datos, gestionar usuarios y registros de acceso y conectar el sistema con la base de datos.
-- **Reconocimiento de Huella Digital:** conectar el lector, capturar la huella, extraer minucias y comparar con plantillas.
-- **Interfaz y Pruebas:** diseñar la interfaz móvil, mostrar resultados, probar el sistema y corregir errores.
+> **Estado actual:** proyecto en etapa de análisis, diseño y planificación. El reconocimiento facial y el registro desde Android están previstos para la etapa de programación; todavía no deben considerarse funcionalidades implementadas.
 
 ## Objetivos
 
-- Diseñar una aplicación móvil de reconocimiento biométrico mediante huella digital.
-- Facilitar la identificación de usuarios registrados.
-- Almacenar de forma segura los datos y registros.
-- Diseñar una interfaz móvil táctil sencilla para administradores.
-- Mantener el proceso de identificación en un tiempo objetivo de menos de 1 minuto.
+- Registrar los datos de los trabajadores.
+- Preparar el registro de sus datos faciales para identificarlos en el terminal Android.
+- Registrar las marcaciones de entrada y salida con fecha y hora.
+- Centralizar la información en SQL Server mediante un servidor desarrollado en C#.
+- Facilitar la consulta de asistencias y la generación de reportes.
+
+## Funcionamiento general propuesto
+
+1. El personal autorizado registra al trabajador y sus datos básicos.
+2. Se realiza el enrolamiento facial del trabajador durante la etapa de programación.
+3. El trabajador se coloca frente al teléfono Android compartido en la entrada.
+4. El sistema intenta identificarlo mediante reconocimiento facial.
+5. Si la identidad se confirma, se registra la marcación correspondiente con fecha y hora.
+6. El servidor en C# gestiona la operación y guarda los datos en SQL Server.
+7. El personal autorizado puede consultar los registros y reportes.
+
+La regla para distinguir entrada y salida, así como el tratamiento de situaciones excepcionales, debe definirse antes de implementar el registro.
+
+## Componentes previstos
+
+- **Terminal Android:** interfaz utilizada por los trabajadores para realizar la marcación mediante la cámara del teléfono.
+- **Servidor C#:** recibe y gestiona las operaciones del sistema, aplica las reglas de negocio y se comunica con la base de datos.
+- **SQL Server:** almacena los trabajadores, la información biométrica protegida y los registros de asistencia.
+- **Módulo de reconocimiento facial:** permite enrolar e identificar a los trabajadores. La biblioteca, el algoritmo y el lugar exacto donde se realizará el procesamiento todavía deben definirse.
+
+El requisito de C# corresponde al servidor. La tecnología concreta para desarrollar la aplicación Android queda pendiente de confirmación.
 
 ## Alcance funcional inicial
 
-1. Iniciar la aplicación.
-2. Activar el lector y el reconocimiento.
-3. Capturar la huella.
-4. Validar la calidad de la captura.
-5. Repetir la captura si no es válida.
-6. Procesar la huella y extraer minucias.
-7. Comparar la plantilla con las registradas.
-8. Informar si el usuario está registrado o no.
-9. Registrar el intento/acceso.
-10. Mostrar el resultado y volver a la pantalla principal.
+- Registro y consulta de trabajadores.
+- Enrolamiento facial de trabajadores autorizados.
+- Identificación facial desde el teléfono Android compartido.
+- Registro de entrada y salida con fecha y hora.
+- Consulta de asistencias.
+- Reportes básicos por trabajador y periodo.
 
-## Estructura
+Las funciones anteriores describen el alcance propuesto; no significan que ya estén programadas.
+
+## Tecnologías y decisiones
+
+| Elemento | Decisión actual |
+|---|---|
+| Dispositivo de marcación | Teléfono Android compartido |
+| Identificación | Reconocimiento facial |
+| Servidor | C# |
+| Base de datos | SQL Server |
+| Tecnología de la aplicación Android | Pendiente de definir |
+| Biblioteca y algoritmo facial | Pendiente de definir |
+| Comunicación entre Android y servidor | Pendiente de diseñar |
+
+El proyecto ya no contempla un lector físico de huellas como dispositivo principal de marcación.
+
+## Privacidad y seguridad
+
+Los datos faciales son información biométrica sensible. El diseño debe limitar su acceso, proteger su almacenamiento y evitar conservar fotografías completas si no son necesarias. Se evaluará el uso de representaciones biométricas protegidas y se definirán las medidas concretas antes de programar. También deberán establecerse permisos para consultar y administrar los registros.
+
+## Estructura del repositorio
 
 ```text
 BENAILUTECHAR-/
@@ -55,6 +75,7 @@ BENAILUTECHAR-/
 │   ├── proyecto/
 │   ├── requisitos/
 │   ├── arquitectura/
+│   ├── diagramas/
 │   ├── api/
 │   └── manuales/
 ├── src/
@@ -63,24 +84,17 @@ BENAILUTECHAR-/
 │   ├── database/
 │   └── shared/
 ├── tests/
-│   ├── unit/
-│   ├── integration/
-│   └── e2e/
 ├── assets/
-│   ├── images/
-│   ├── logos/
-│   └── screenshots/
-├── scripts/
-└── .github/
-    ├── ISSUE_TEMPLATE/
-    └── PULL_REQUEST_TEMPLATE.md
+└── scripts/
 ```
+
+Las carpetas de código y pruebas deben completarse durante la implementación. La presencia de una carpeta en el repositorio no significa que el componente ya esté desarrollado.
 
 ## Documentación
 
 - [Visión y alcance](docs/vision-y-alcance.md)
 - [Requisitos — índice](docs/requisitos.md) y [especificación detallada](docs/requisitos/README.md)
-- [Arquitectura — índice](docs/arquitectura.md) y [descripción inicial](docs/arquitectura/README.md)
+- [Arquitectura — índice](docs/arquitectura.md) y [flujo propuesto](docs/arquitectura/README.md)
 - [Proyecto y planificación](docs/proyecto/README.md)
 - [Planificación e hitos](docs/planificacion/planificacion.md)
 - [Seguimiento](docs/planificacion/seguimiento.md)
@@ -90,97 +104,20 @@ BENAILUTECHAR-/
 - [Acuerdos de trabajo](docs/equipo/acuerdos-de-trabajo.md)
 - [Manuales](docs/manuales/README.md)
 
-## Herramientas y colaboración
+## Entorno y ejecución
+
+Todavía no se publican instrucciones de instalación o ejecución porque la solución de programación, la aplicación Android, el servidor y sus dependencias deben implementarse y probarse. Cuando exista una versión ejecutable, se documentarán los requisitos y pasos reales para abrirla y ejecutarla.
+
+## Cronograma
+
+El cronograma de octubre a diciembre de 2026 es una planificación inicial. Debido al cambio de reconocimiento por huella a reconocimiento facial desde Android, el equipo debe revisar las actividades, fechas y responsables. No se debe interpretar una fecha planificada como evidencia de que una tarea ya fue completada.
+
+Consultar el [Gantt del proyecto](docs/proyecto/GANTT.md).
+
+## Colaboración
+
+El trabajo se organizará mediante Issues y Pull Requests. La rama principal debe mantenerse estable y los cambios deben integrarse después de su revisión.
 
 - [Cómo contribuir](CONTRIBUTING.md)
 - [Historial de cambios](CHANGELOG.md)
 - [Política de seguridad](SECURITY.md)
-- [Configuración de formato](.editorconfig)
-- [Archivos excluidos](.gitignore)
-
-## Entorno y ejecución
-
-Los materiales actuales no especifican todavía una versión definitiva del lenguaje, plataforma, dependencias ni comandos de ejecución. La documentación menciona Python en el documento académico y C# en la presentación; esta diferencia debe resolverse antes de publicar instrucciones de instalación. No se inventan comandos de ejecución mientras esa decisión y el entorno real no estén confirmados.
-
-## Cronograma
-
-El Gantt tentativo cubre octubre–diciembre de 2026:
-
-| Actividad | Inicio | Fin | Responsable indicado |
-|---|---:|---:|---|
-| Análisis de requisitos | 05/10/2026 | 16/10/2026 | Todos |
-| Diseño de arquitectura y prototipo de interfaz | 12/10/2026 | 30/10/2026 | Interfaz |
-| Base de datos (usuarios y registros de acceso) | 19/10/2026 | 06/11/2026 | Líder / BD |
-| Módulo de huella digital (lector y comparación) | 19/10/2026 | 13/11/2026 | Huella |
-| Interfaz móvil y pantalla de resultados | 26/10/2026 | 20/11/2026 | Interfaz |
-| Integración de módulos | 16/11/2026 | 27/11/2026 | Todos |
-| Pruebas y corrección de errores | 23/11/2026 | 04/12/2026 | Interfaz |
-| Documentación y presentación final | 30/11/2026 | 11/12/2026 | Todos |
-
-## Tecnologías
-
-La documentación académica recibida presenta una diferencia que debe resolverse antes de iniciar la implementación:
-
-- **Documento de proyecto:** recomienda **Python**, indicando OpenCV, NumPy, SDK del lector y pyfingerprint como tecnologías/librerías posibles.
-- **Presentación:** indica que el sistema estará desarrollado en **C#**.
-
-Por ahora se mantiene esta decisión como **pendiente de confirmación**, sin asumir una tecnología definitiva.
-
-## Hardware y recursos
-
-Se identifican como recursos necesarios:
-
-- Computadora o laptop.
-- Teléfono celular.
-- Internet.
-- Lector de huellas digitales.
-
-La documentación menciona sensores tipo **R307/AS608** como referencia y plantea validar la compatibilidad del lector con el celular.
-
-## Privacidad y seguridad
-
-La documentación plantea almacenar **plantillas/minucias de huella y no imágenes completas**, con acceso restringido. También contempla registrar intentos de acceso y manejar capturas de baja calidad.
-
-## Flujo de trabajo GitHub
-
-Usaremos Issues para tareas concretas y Pull Requests para integrar cambios.
-
-```text
-Backlog → To Do → In Progress → Review → Done
-```
-
-Convención de ramas:
-
-- `feature/nombre-funcionalidad`
-- `fix/nombre-problema`
-- `docs/nombre-documentacion`
-- `test/nombre-prueba`
-
-La rama `main` se mantendrá estable y los cambios relevantes se integrarán mediante Pull Request.
-
-## Fases
-
-1. Organización y análisis de requisitos
-2. Diseño de arquitectura y prototipo
-3. Desarrollo de base de datos
-4. Desarrollo del módulo biométrico
-5. Desarrollo de interfaz
-6. Integración
-7. Pruebas y corrección
-8. Documentación y presentación
-
-## Riesgos identificados
-
-- Calidad de la captura: dedos sucios, húmedos o mal colocados.
-- Compatibilidad del lector con el celular.
-- Protección de las plantillas de huella.
-- Definición del lector físico que se utilizará.
-- Decisión definitiva del lenguaje/stack de implementación.
-
-## Estado del proyecto
-
-El repositorio ya cuenta con la estructura de trabajo. El siguiente paso es cerrar requisitos, resolver las decisiones pendientes y convertir el cronograma en tareas ejecutables mediante Issues.
-
-## GitHub
-
-El seguimiento del trabajo se realizará mediante Issues, Pull Requests y GitHub Projects.
