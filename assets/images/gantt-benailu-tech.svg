@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="785" viewBox="0 0 1600 785">
   <rect width="1600" height="785" fill="#ffffff"/>
-  <text x="468" y="42" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" fill="#111">Diagrama de Gantt tentativo - Benailu Tech (oct - dic 2026)</text>
+  <text x="455" y="42" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" fill="#111">Diagrama de Gantt inicial - Benailu Tech (oct - dic 2026)</text>
   <g stroke="#dddddd" stroke-width="1">
     <line x1="495" y1="54" x2="495" y2="706"/><line x1="592" y1="54" x2="592" y2="706"/>
     <line x1="689" y1="54" x2="689" y2="706"/><line x1="785" y1="54" x2="785" y2="706"/>
@@ -9,13 +9,13 @@
     <line x1="1268" y1="54" x2="1268" y2="706"/><line x1="1364" y1="54" x2="1364" y2="706"/>
     <line x1="1461" y1="54" x2="1461" y2="706"/><line x1="1557" y1="54" x2="1557" y2="706"/>
   </g>
-  <g font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#222" text-anchor="end">
+  <g font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#222" text-anchor="end">
     <text x="455" y="113">Análisis de requisitos</text>
-    <text x="455" y="191">Diseño de arquitectura y prototipo de interfaz</text>
-    <text x="455" y="270">Base de datos (usuarios y registros de acceso)</text>
-    <text x="455" y="348">Módulo de huella digital (lector y comparación)</text>
-    <text x="455" y="427">Interfaz móvil y pantalla de resultados</text>
-    <text x="455" y="505">Integración de módulos</text>
+    <text x="455" y="191">Diseño de arquitectura y prototipo Android</text>
+    <text x="455" y="270">Revisión del modelo de datos SQL Server</text>
+    <text x="455" y="348">Diseño del módulo de reconocimiento facial</text>
+    <text x="455" y="427">Diseño de interfaz del terminal Android</text>
+    <text x="455" y="505">Servidor C# e integración</text>
     <text x="455" y="584">Pruebas y corrección de errores</text>
     <text x="455" y="662">Documentación y presentación final</text>
   </g>
@@ -52,8 +52,8 @@
     <rect x="1426" y="62" width="140" height="128" rx="3" fill="#fff" stroke="#ccc"/>
     <text x="1496" y="81" text-anchor="middle">Responsable</text>
     <rect x="1432" y="94" width="34" height="13" fill="#596b91"/><text x="1477" y="106">Todos</text>
-    <rect x="1432" y="118" width="34" height="13" fill="#2874a6"/><text x="1477" y="130">Líder / BD</text>
-    <rect x="1432" y="142" width="34" height="13" fill="#c86d25"/><text x="1477" y="154">Huella</text>
-    <rect x="1432" y="166" width="34" height="13" fill="#3c8c5a"/><text x="1477" y="178">Interfaz</text>
+    <rect x="1432" y="118" width="34" height="13" fill="#2874a6"/><text x="1477" y="130">BD</text>
+    <rect x="1432" y="142" width="34" height="13" fill="#c86d25"/><text x="1477" y="154">Facial</text>
+    <rect x="1432" y="166" width="34" height="13" fill="#3c8c5a"/><text x="1477" y="178">Android</text>
   </g>
 </svg>
