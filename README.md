@@ -78,10 +78,29 @@ BENAILUTECHAR-/
 
 ## Documentación
 
+- [Visión y alcance](docs/vision-y-alcance.md)
+- [Requisitos — índice](docs/requisitos.md) y [especificación detallada](docs/requisitos/README.md)
+- [Arquitectura — índice](docs/arquitectura.md) y [descripción inicial](docs/arquitectura/README.md)
 - [Proyecto y planificación](docs/proyecto/README.md)
-- [Requisitos](docs/requisitos/README.md)
-- [Arquitectura](docs/arquitectura/README.md)
+- [Planificación e hitos](docs/planificacion/planificacion.md)
+- [Seguimiento](docs/planificacion/seguimiento.md)
+- [Gantt](docs/proyecto/GANTT.md)
+- [Diagramas](docs/diagramas/README.md)
+- [Integrantes y roles](docs/equipo/integrantes-y-roles.md)
+- [Acuerdos de trabajo](docs/equipo/acuerdos-de-trabajo.md)
 - [Manuales](docs/manuales/README.md)
+
+## Herramientas y colaboración
+
+- [Cómo contribuir](CONTRIBUTING.md)
+- [Historial de cambios](CHANGELOG.md)
+- [Política de seguridad](SECURITY.md)
+- [Configuración de formato](.editorconfig)
+- [Archivos excluidos](.gitignore)
+
+## Entorno y ejecución
+
+Los materiales actuales no especifican todavía una versión definitiva del lenguaje, plataforma, dependencias ni comandos de ejecución. La documentación menciona Python en el documento académico y C# en la presentación; esta diferencia debe resolverse antes de publicar instrucciones de instalación. No se inventan comandos de ejecución mientras esa decisión y el entorno real no estén confirmados.
 
 ## Cronograma
 
