@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BenailuTech.MainPage"
+             Title="BENAILUTECHAR">
+  <ScrollView>
+    <VerticalStackLayout Padding="25" Spacing="20" VerticalOptions="Center">
+      <Label Text="BENAILUTECHAR" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
+      <Label Text="Control de asistencia facial" FontSize="17" HorizontalOptions="Center" />
+      <Frame Padding="10" BorderColor="Gray" CornerRadius="12" HeightRequest="280">
+        <Image x:Name="PhotoPreview" Aspect="AspectFit" />
+      </Frame>
+      <Label x:Name="StatusLabel" Text="Esperando captura del trabajador..." FontSize="14"
+             HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+      <Button Text="CAPTURAR ROSTRO" Clicked="OnCaptureClicked"
+              BackgroundColor="#1769AA" TextColor="White" />
+      <Button Text="REPETIR CAPTURA" Clicked="OnRepeatClicked"
+              BackgroundColor="#555555" TextColor="White" />
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>
