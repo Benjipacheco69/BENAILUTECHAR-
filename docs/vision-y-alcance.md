@@ -2,52 +2,58 @@
 
 ## Visión
 
-Benailu Tech propone un sistema de control de asistencia mediante reconocimiento facial. Se utilizará un teléfono Android compartido, ubicado en la entrada de la empresa, como terminal para que los trabajadores registren su asistencia. Un servidor desarrollado en C# gestionará las operaciones y SQL Server almacenará los datos.
+Benailu Tech es un sistema académico de control de asistencia de trabajadores. La solución actual contiene una API ASP.NET Core en C#, una aplicación .NET MAUI dirigida a Android y una base de datos SQL Server. La visión futura es utilizar un teléfono Android compartido en la entrada de la empresa para realizar marcaciones mediante reconocimiento facial.
 
-## Problema
+## Problema y propósito
 
-Los registros manuales de asistencia pueden requerir tiempo y dificultar la consulta ordenada de entradas y salidas. El proyecto busca centralizar las marcaciones y facilitar la identificación de los trabajadores mediante reconocimiento facial.
+Los registros manuales pueden requerir tiempo y dificultar la consulta ordenada de entradas y salidas. El proyecto busca centralizar las marcaciones, facilitar la administración de trabajadores y ofrecer consultas y reportes básicos.
 
 ## Usuarios objetivo
 
-- **Trabajadores:** utilizan el teléfono Android compartido para registrar su entrada o salida.
-- **Personal administrativo autorizado:** registra y administra los datos de trabajadores y consulta las asistencias.
-- **Responsables de la empresa:** revisan los registros y reportes para el control de asistencia.
+- **Trabajadores:** utilizarán el terminal Android para registrar entrada o salida cuando se implemente la identificación facial.
+- **Personal administrativo autorizado:** registrará y administrará trabajadores y consultará asistencias.
+- **Responsables de la empresa:** revisarán los registros y reportes.
 
-## Funcionamiento general
+## Funcionalidades implementadas
 
-1. El personal autorizado registra los datos básicos del trabajador.
-2. Se realiza el enrolamiento facial del trabajador.
-3. El trabajador utiliza el teléfono Android ubicado en la entrada.
-4. El sistema realiza la identificación facial.
-5. Si se confirma la identidad, se registra la marcación con fecha y hora.
-6. El servidor C# gestiona la operación y SQL Server conserva los datos.
-7. El personal autorizado consulta las asistencias y los reportes.
+- Registro, listado, búsqueda, modificación y desactivación de trabajadores mediante API.
+- Registro de entradas y salidas mediante CI como dato de prueba.
+- Validación de que la primera marcación diaria sea ENTRADA y las siguientes alternen.
+- Consulta general e historial de marcaciones.
+- Filtro de marcaciones por fecha.
+- Reporte de cantidades de entradas, salidas y marcaciones por trabajador y periodo.
+- Aplicación MAUI Android con permiso de cámara y captura/previsualización de fotografía.
 
-La regla que determinará si una marcación corresponde a entrada o salida debe acordarse antes de implementar el sistema.
+## Funcionalidades previstas y pendientes
 
-## Funcionalidades contempladas
+- Enrolamiento e identificación facial.
+- Integración de la aplicación Android con la API.
+- Registro de marcaciones desde la app tras confirmar identidad.
+- Autenticación, autorización y roles de usuarios.
+- Reportes de horas, tardanzas, ausencias y cumplimiento de horarios.
 
-- Registro de trabajadores y sus datos básicos.
-- Enrolamiento facial de trabajadores autorizados.
-- Identificación facial desde el teléfono Android compartido.
-- Registro de entrada y salida con fecha y hora.
-- Consulta de historial de asistencia.
-- Reportes básicos por trabajador y periodo.
-- Mensajes cuando no se logra identificar a una persona o existe un problema de conexión.
+La captura de una fotografía no equivale a reconocimiento facial. La API de prueba recibe el CI del trabajador y no verifica identidad.
 
-## Alcance y límites
+## Alcance técnico
 
-El servidor se desarrollará en C# y la base de datos será SQL Server. La tecnología concreta de la aplicación Android, la biblioteca y el algoritmo de reconocimiento facial, la ubicación del procesamiento biométrico y el mecanismo de comunicación entre el teléfono y el servidor quedan pendientes de diseño.
+- Backend: C# / ASP.NET Core Web API, .NET 10.
+- App móvil: .NET MAUI, destino Android `net10.0-android`.
+- Base de datos: SQL Server.
+- Acceso a datos: Microsoft.Data.SqlClient.
 
-El proyecto no contempla como dispositivo principal un lector físico de huellas. El reconocimiento facial está propuesto, pero todavía no se encuentra implementado. Las funcionalidades descritas representan el alcance previsto y deberán validarse mediante pruebas.
+La biblioteca y el algoritmo de reconocimiento facial, la ubicación del procesamiento biométrico y el contrato seguro entre el teléfono y el servidor quedan pendientes de decisión.
+
+## Límites
+
+El sistema no está preparado para uso productivo. No dispone de autenticación/autorización y no implementa reconocimiento facial ni integración móvil-backend. El reporte actual solo cuenta marcaciones y no calcula horas trabajadas, tardanzas ni ausencias.
 
 ## Privacidad
 
-Los datos faciales requieren protección especial. Se debe restringir su acceso, proteger su almacenamiento y evaluar alternativas que no requieran conservar fotografías completas. Los detalles técnicos y las autorizaciones necesarias se definirán antes del enrolamiento y la programación.
+Los datos faciales requieren protección especial. Antes de implementar el enrolamiento se deben definir permisos, controles de acceso, almacenamiento seguro, retención y la necesidad de conservar fotografías o plantillas biométricas.
 
 ## Documentos relacionados
 
 - [Requisitos](requisitos.md)
 - [Arquitectura](arquitectura.md)
+- [Modelo de datos](modelo-de-datos.md)
 - [Planificación](planificacion/planificacion.md)
