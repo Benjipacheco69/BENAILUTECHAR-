@@ -1,34 +1,34 @@
-# Arquitectura
+# Arquitectura del sistema
 
-La descripción del flujo general y de los componentes se encuentra en [Arquitectura propuesta](arquitectura/README.md).
+La descripción detallada de componentes, responsabilidades y flujos está en [Arquitectura y decisiones técnicas](arquitectura/README.md).
 
-## Componentes
-- **Terminal Android:** teléfono compartido ubicado en la entrada de la empresa. La aplicación y su interfaz están pendientes.
-- **Servidor C#:** primera versión de una API ASP.NET Core implementada y probada localmente. Gestiona trabajadores y marcaciones.
-- **SQL Server:** base de datos utilizada por el backend local para conservar trabajadores y registros de asistencia.
-- **Módulo de reconocimiento facial:** pendiente de implementación. La biblioteca, el algoritmo y la ubicación del procesamiento todavía deben definirse.
-- **Consultas y reportes:** implementados en la API en una primera versión; permiten consultar marcaciones y obtener conteos por trabajador y periodo.
+## Arquitectura implementada en el repositorio
 
-## Separación general
-La aplicación Android será el terminal de interacción. El servidor C# concentrará la lógica del sistema y la comunicación con SQL Server. La base de datos conservará la información de manera persistente.
+```mermaid
+flowchart LR
+    A["Cliente HTTP / solicitudes de prueba"] --> B["ASP.NET Core Web API (.NET 10)"]
+    B --> C["Microsoft.Data.SqlClient"]
+    C --> D[("SQL Server: SistemaAsistencia")]
+    M["App .NET MAUI Android"] -. "sin integración HTTP implementada" .-> B
+```
 
-En la versión local probada, las solicitudes de marcación se envían mediante HTTP usando el CI del trabajador. Esto es únicamente una forma de probar el backend: todavía no existe integración con reconocimiento facial ni Android.
+- **Backend:** ASP.NET Core Web API en C#, con controladores de trabajadores y marcaciones.
+- **Persistencia:** SQL Server con acceso mediante `Microsoft.Data.SqlClient`.
+- **Móvil:** aplicación .NET MAUI dirigida a Android; actualmente captura y previsualiza fotografías.
+- **Base de datos:** tablas Trabajadores, DatosFaciales y Marcaciones.
 
-## Estado
+## Estado funcional
 
 | Componente | Estado |
 |---|---|
-| API C# y conexión SQL Server | Implementadas y probadas localmente |
-| Administración de trabajadores | Implementada y probada localmente |
-| Registro y consulta de marcaciones | Implementados y probados localmente |
-| Filtro por fecha y reporte por periodo | Implementados y probados localmente |
-| Código fuente del backend en GitHub | Pendiente de incorporar |
-| Script SQL de creación de la base | Pendiente de incorporar |
-| Aplicación Android | Pendiente |
-| Reconocimiento facial | Pendiente |
-| Integración Android, reconocimiento y servidor | Pendiente |
+| API y conexión SQL Server | Implementadas; equipo informa compilación y pruebas locales |
+| Administración de trabajadores | Implementada |
+| Registro, consulta, filtro y reporte de marcaciones | Implementados |
+| App MAUI Android y captura de cámara | Implementada; sin integración con backend |
+| Reconocimiento facial y enrolamiento | Pendientes |
 | Autenticación y autorización | Pendientes |
+| Pruebas automatizadas | Pendientes |
 
-El reconocimiento facial sustituye el planteamiento anterior de lector físico de huellas como dispositivo principal de marcación.
+El flujo de marcación actual usa CI como dato de prueba. No valida identidad. La tabla DatosFaciales está preparada en SQL, pero la API no implementa enrolamiento ni comparación facial.
 
-Consultar también [diagramas](diagramas/README.md) y [documentación de la API](api/README.md).
+Consultar [modelo de datos](modelo-de-datos.md), [diagramas](diagramas/README.md) y [documentación de la API](api/README.md).
