@@ -1,29 +1,27 @@
 # Integrantes y roles
 
-El repositorio identifica a:
-- AINHOA ALMUDENA FLORES VIDAL
-- ARTURO GONZALES RUFINO
+## Integrantes identificados
+
+- Ainhoa Almudena Flores Vidal
+- Arturo Gonzales Rufino
 - Benji Pacheco Lafuente
 - Luis Ángel Rocha Paco
 
-La composición definitiva y la asignación nominal de todos los roles deben ser confirmadas por el equipo.
+## Responsabilidades funcionales del proyecto
 
-## Roles funcionales
-
-- **Integrante 1 — Servidor:** desarrollo de la API en C#, conexión con SQL Server, registro y administración de trabajadores, almacenamiento de marcaciones, consultas y reportes de asistencia.
-- **Integrante 2 — Dispositivo:** desarrollo del terminal Android compartido y del módulo de reconocimiento facial; integración con el servidor cuando se definan los contratos de comunicación.
-- **Apoyo del equipo:** revisión de requisitos, pruebas, documentación e integración general, según los acuerdos del grupo.
-
-| Integrante | Responsabilidad |
+| Área | Responsabilidades |
 |---|---|
-| Integrante 1 | Servidor C# y SQL Server |
-| Integrante 2 | Terminal Android y reconocimiento facial |
-| Asignaciones adicionales | Por confirmar con el equipo |
+| Backend y base de datos | API C# / ASP.NET Core, SQL Server, trabajadores, marcaciones, consultas y reportes |
+| Aplicación móvil | Aplicación MAUI Android, cámara e interfaz del terminal |
+| Reconocimiento facial | Selección e implementación de enrolamiento e identificación |
+| Calidad y documentación | Pruebas, documentación, revisión de cambios y seguimiento |
 
-Los nombres asociados a cada responsabilidad deben confirmarse entre los integrantes antes de considerar esta tabla como distribución nominal definitiva.
+La asignación nominal de cada área a una persona no está documentada de forma verificable en los archivos disponibles. El equipo debe completar esa distribución; no se asignan responsabilidades individuales por inferencia.
 
-## Estado de la responsabilidad del servidor
+## Estado técnico
 
-La primera versión local del backend fue probada con SQL Server. Incluye administración de trabajadores, registro de entradas y salidas, historial, consulta general, filtro por fecha y reportes básicos por periodo. El código fuente todavía debe incorporarse al repositorio.
+La primera versión de la API y la app MAUI Android están incorporadas en `src/`. El equipo informa que verificó la compilación. La app captura y previsualiza fotografías, pero no reconoce rostros ni se comunica con la API. La identificación facial y la integración completa siguen pendientes.
 
-El reconocimiento facial y el terminal Android corresponden a la otra parte del trabajo y siguen pendientes de implementación e integración.
+## Acuerdos
+
+Consultar [acuerdos de trabajo](acuerdos-de-trabajo.md). Los responsables deben revisar y aprobar la asignación nominal y los acuerdos de colaboración.
