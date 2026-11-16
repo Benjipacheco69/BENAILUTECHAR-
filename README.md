@@ -1,98 +1,85 @@
-# BENAILU TECH
+# Benailu Tech — Sistema de control de asistencia
 
-## Descripción
-**Benailu Tech** es un sistema de control de asistencia para trabajadores. El proyecto contempla un teléfono Android compartido en la entrada de la empresa para realizar marcaciones mediante reconocimiento facial. Un servidor en C# gestiona las operaciones y SQL Server almacena los datos.
+Benailu Tech es un proyecto de control de asistencia de trabajadores. El repositorio reúne una API ASP.NET Core, una aplicación .NET MAUI y el script SQL Server. El objetivo final contempla marcación desde Android y reconocimiento facial; **esas dos capacidades todavía no están integradas ni implementadas funcionalmente**.
 
-El proyecto se desarrolla por componentes. Actualmente existe una primera API en C# conectada a SQL Server y probada localmente. La aplicación Android y el reconocimiento facial todavía están pendientes de implementación e integración.
-
-## Objetivo
-Facilitar el registro de entradas y salidas, centralizar la información y permitir al personal autorizado consultar historiales y reportes.
-
-## Estado actual
+## Estado real de la solución
 
 | Componente | Estado |
 |---|---|
-| API/servidor en C# | Implementado y probado localmente en su primera versión |
-| Conexión con SQL Server | Probada localmente |
-| Registro y administración de trabajadores | Implementado y probado |
-| Registro de entradas y salidas | Implementado y probado con solicitudes HTTP |
-| Historial y consulta de marcaciones | Implementado y probado |
-| Filtro de marcaciones por fecha | Implementado y probado |
-| Reporte de cantidades por trabajador y periodo | Implementado y probado |
-| Aplicación Android | Pendiente |
+| API ASP.NET Core | Implementada para operaciones de trabajadores y marcaciones |
+| Persistencia SQL Server | Implementada mediante `Microsoft.Data.SqlClient` |
+| Aplicación .NET MAUI | Proyecto inicial Android; la captura/visualización de cámara no equivale a reconocimiento facial |
+| Integración aplicación–API | Pendiente |
 | Reconocimiento facial | Pendiente |
-| Integración Android-servidor | Pendiente |
-| Autenticación y autorización | Pendientes |
-| Publicación del código backend en este repositorio | Pendiente |
+| Autenticación/autorización | Pendiente |
+| Pruebas automatizadas | No se encontró un proyecto de pruebas automatizadas; las verificaciones documentadas son manuales |
 
-**Importante:** las pruebas del servidor se realizaron localmente. El código fuente del backend y el script de base de datos todavía deben incorporarse al repositorio para que otros integrantes puedan reproducir la ejecución. El backend local no está desplegado ni integrado con Android.
+La API permite registrar, consultar, modificar y desactivar trabajadores; registrar entradas/salidas; consultar historiales y obtener conteos por periodo. El reporte no calcula horas trabajadas, tardanzas ni ausencias.
 
-## Funcionamiento previsto
-1. El personal autorizado registra los datos básicos de cada trabajador.
-2. Se realiza el enrolamiento facial cuando el módulo esté implementado.
-3. El trabajador utiliza el teléfono Android compartido en la entrada.
-4. El módulo facial intenta identificarlo.
-5. Una vez integrada y validada la identificación, se solicita al servidor registrar la marcación.
-6. El servidor aplica las reglas de asistencia y guarda la información en SQL Server.
-7. El personal autorizado consulta el historial y los reportes.
+## Tecnologías y requisitos
 
-En la versión actual del backend, las marcaciones se prueban mediante solicitudes HTTP usando el CI del trabajador. Todavía no existe verificación facial conectada a este proceso.
+- .NET SDK 10.0 (los proyectos fuente apuntan a `net10.0` y `net10.0-android`).
+- Visual Studio 2022 actualizado con las cargas de trabajo ASP.NET y .NET MAUI, o CLI de .NET para el backend.
+- SQL Server y SQL Server Management Studio (SSMS) o herramienta equivalente.
+- Para ejecutar Android: Android SDK/emulador o dispositivo compatible y las herramientas MAUI correspondientes.
 
-## Funcionalidades del servidor implementadas
-- Registrar trabajadores.
-- Consultar trabajadores por CI y listar trabajadores.
-- Modificar datos de trabajadores.
-- Desactivar trabajadores.
-- Registrar marcaciones de tipo ENTRADA y SALIDA.
-- Validar que las marcaciones alternen entre entrada y salida durante el día.
-- Consultar el historial de marcaciones por CI.
-- Consultar todas las marcaciones.
-- Filtrar marcaciones por fecha.
-- Generar un resumen de entradas, salidas y total de marcaciones por trabajador en un periodo.
+## Estructura
 
-El reporte actual cuenta marcaciones; no calcula horas trabajadas, tardanzas, ausencias ni cumplimiento de horarios.
+```text
+.
+├── docs/
+│   └── manuales/
+│       └── instalacion-y-ejecucion.md
+├── src/
+│   ├── backend/
+│   │   └── SistemaAsistenciaAPI/
+│   ├── database/
+│   │   └── 01_crear_base_datos.sql
+│   └── mobile/
+│       └── BenailuTech/
+├── .gitignore
+├── INVENTARIO.md
+└── README.md
+```
 
-## Tecnologías
+## Preparación rápida
 
-| Elemento | Tecnología/estado |
-|---|---|
-| Backend | C# / ASP.NET Core Web API |
-| Acceso a datos | Microsoft.Data.SqlClient |
-| Base de datos | Microsoft SQL Server |
-| Terminal de marcación | Teléfono Android compartido, pendiente |
-| Reconocimiento | Facial, pendiente |
-| Comunicación Android-servidor | Pendiente de definir e integrar |
+1. Instala .NET 10 SDK y SQL Server.
+2. Ejecuta `src/database/01_crear_base_datos.sql` en SSMS. El script crea `SistemaAsistencia`, las tablas `Trabajadores`, `DatosFaciales` y `Marcaciones`, y agrega un registro de prueba si no existe.
+3. Configura la cadena de conexión `ConexionSQL` en la configuración local de la API. No publiques contraseñas ni cadenas personales.
+4. Desde `src/backend/SistemaAsistenciaAPI` ejecuta:
 
-## Privacidad y seguridad
-Los datos personales y biométricos deben protegerse. No se deben subir contraseñas, cadenas de conexión locales, datos biométricos reales ni archivos de configuración con secretos. La versión actual es un prototipo de desarrollo: antes de utilizarla con trabajadores reales se debe implementar autenticación, autorización, protección de comunicaciones y controles adecuados para los datos biométricos.
+   ```bash
+   dotnet restore
+   dotnet build
+   dotnet run
+   ```
 
-## Estructura del repositorio
-- docs/: documentación del proyecto.
-- src/backend/: ubicación prevista para el proyecto C#.
-- src/database/: ubicación prevista para scripts SQL.
-- src/frontend/: ubicación prevista para la aplicación Android.
-- tests/: pruebas.
-- assets/: recursos.
+5. Para instrucciones completas, ejemplos HTTP, configuración y limitaciones consulta el [manual de instalación y ejecución](docs/manuales/instalacion-y-ejecucion.md).
 
-Las carpetas src/backend y src/database están preparadas, pero el código backend y el script SQL aún deben subirse. La estructura no implica que esos archivos ya estén presentes.
+## Rutas principales de la API
 
-## Documentación
-- [Visión y alcance](docs/vision-y-alcance.md)
-- [Requisitos](docs/requisitos.md)
-- [Arquitectura general](docs/arquitectura.md)
-- [Arquitectura propuesta y flujo](docs/arquitectura/README.md)
-- [Documentación de la API y ejemplos](docs/api/README.md)
-- [Proyecto y planificación](docs/proyecto/README.md)
-- [Seguimiento de actividades](docs/planificacion/seguimiento.md)
-- [Cronograma Gantt](docs/proyecto/GANTT.md)
-- [Diagramas](docs/diagramas/README.md)
-- [Integrantes y roles](docs/equipo/integrantes-y-roles.md)
-- [Acuerdos de trabajo](docs/equipo/acuerdos-de-trabajo.md)
-- [Manuales](docs/manuales/README.md)
-- [Manual de instalación y ejecución](docs/manuales/instalacion-y-ejecucion.md)
+| Método | Ruta | Descripción |
+|---|---|---|
+| POST | `/api/Trabajadores` | Crear trabajador |
+| GET | `/api/Trabajadores` | Listar trabajadores |
+| GET | `/api/Trabajadores/{ci}` | Buscar por CI |
+| PUT | `/api/Trabajadores/{id}` | Actualizar trabajador |
+| PATCH | `/api/Trabajadores/{id}/desactivar` | Desactivar trabajador |
+| POST | `/api/Marcaciones` | Crear marcación |
+| GET | `/api/Marcaciones` | Listar marcaciones |
+| GET | `/api/Marcaciones?fecha=AAAA-MM-DD` | Filtrar por fecha |
+| GET | `/api/Marcaciones/{ci}` | Historial por CI |
+| GET | `/api/Marcaciones/reporte?fechaInicio=AAAA-MM-DD&fechaFin=AAAA-MM-DD` | Conteos por trabajador y periodo |
 
-## Ejecución
-El procedimiento de preparación, configuración y ejecución está descrito en el [Manual de instalación y ejecución](docs/manuales/instalacion-y-ejecucion.md). La ejecución todavía no puede reproducirse desde una copia limpia del repositorio porque el código backend y el script SQL aún no están publicados en `src/backend/` y `src/database/`. La versión local del equipo se probó con Visual Studio y SQL Server; no se deben publicar cadenas de conexión personales ni secretos.
+## Configuración y seguridad
 
-## Colaboración
-Los cambios deben organizarse mediante commits descriptivos y revisión del equipo. Cada integrante debe coordinar la integración de sus componentes para evitar sobrescribir el trabajo de los demás.
+La API lee su conexión SQL Server desde la clave `ConexionSQL`. Usa una configuración local o User Secrets para credenciales; no guardes secretos en Git. El proyecto es una base de desarrollo, no un sistema listo para producción. Antes de usar datos reales se deben añadir autenticación, autorización, HTTPS correctamente configurado, protección de datos personales/biométricos, auditoría y pruebas de seguridad.
+
+## Pruebas
+
+No se incluye actualmente un proyecto de pruebas unitarias o de integración. El manual describe comprobaciones manuales de los endpoints y la base de datos. La ejecución debe verificarse en el entorno del desarrollador; no se afirma que haya sido ejecutada en un entorno limpio de CI.
+
+## Alcance futuro
+
+La identificación facial, el flujo completo desde el teléfono Android hasta la API, autenticación/autorización y cálculos avanzados de asistencia son trabajo pendiente. Los diagramas o descripciones de esas capacidades deben entenderse como diseño objetivo y no como funcionalidad entregada.
