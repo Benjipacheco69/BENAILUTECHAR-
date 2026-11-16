@@ -2,24 +2,42 @@
 .DS_Store
 Thumbs.db
 Desktop.ini
+
 # IDE
 .vs/
 .idea/
 .vscode/
 *.user
 *.suo
-# Compilación
+*.userosscache
+*.sln.docstates
+
+# .NET / compilación
 [Bb]in/
 [Oo]bj/
 [Dd]ebug/
 [Rr]elease/
+artifacts/
+TestResults/
+coverage/
 *.dll
 *.exe
-# Temporales
+*.pdb
+*.cache
+
+# Android / MAUI
+*.apk
+*.aab
+*.idsig
+*.keystore
+*.jks
+
+# Temporales y logs
 *.tmp
 *.log
 *.bak
-# Secretos
+
+# Secretos y configuración local
 .env
 .env.*
 !.env.example
@@ -27,3 +45,4 @@ secrets/
 *.pfx
 *.p12
 *.key
+appsettings.Local.json
