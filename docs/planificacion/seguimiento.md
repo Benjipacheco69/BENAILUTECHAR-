@@ -1,36 +1,35 @@
 # Seguimiento
 
-Actualizar esta página durante las reuniones del equipo. Los estados reflejan avances comprobados y acuerdos conocidos; deben revisarse con todos los integrantes.
+Actualizar esta página durante las reuniones del equipo. El estado de compilación y pruebas locales del backend fue confirmado por el equipo. Las tareas futuras deben mantenerse en GitHub Issues y sincronizarse con esta tabla.
 
-| Actividad | Estado | Bloqueos o acuerdos |
+| Actividad | Estado | Evidencia / siguiente paso |
 |---|---|---|
-| Actualizar requisitos al reconocimiento facial desde Android | Documentación actualizada | Validar el contenido con el equipo y el docente |
-| Confirmar campos del registro de trabajadores | Implementación inicial probada | La API local utiliza CI, nombres y apellidos; validar si se requieren más datos |
-| Implementar conexión C# con SQL Server | Completado y probado localmente | Incorporar el proyecto y la configuración de ejemplo al repositorio sin secretos |
-| Implementar registro, consulta y modificación de trabajadores | Completado y probado localmente | Código fuente aún pendiente de subir a GitHub |
-| Implementar desactivación de trabajadores | Completado y probado localmente | Código fuente aún pendiente de subir a GitHub |
-| Implementar registro de entradas y salidas | Completado y probado localmente | Las solicitudes de prueba utilizan CI; no existe verificación facial |
-| Implementar historial y consulta general de marcaciones | Completado y probado localmente | Incorporar el código fuente al repositorio |
-| Implementar filtro de marcaciones por fecha | Completado y probado localmente | Documentado en la guía de API |
-| Implementar reporte por trabajador y periodo | Completado y probado localmente | El reporte cuenta entradas y salidas; no calcula horas ni tardanzas |
-| Incorporar backend C# a GitHub | Pendiente | Subir el proyecto a src/backend; excluir secretos y archivos generados |
-| Incorporar script de creación de SQL Server | Pendiente | Preparar un script reproducible en src/database |
-| Elegir tecnología de la aplicación Android | Pendiente | El equipo debe acordar la tecnología |
-| Seleccionar biblioteca y método de reconocimiento facial | Pendiente | Decidir durante el diseño técnico y la programación |
-| Definir dónde se procesarán los datos faciales | Pendiente | Teléfono, servidor o combinación |
-| Diseñar comunicación segura entre Android y servidor C# | Pendiente | Definir solicitudes, respuestas, autenticación y manejo de errores |
-| Implementar autenticación y autorización | Pendiente | Requisito previo al uso con datos reales |
-| Integrar Android, reconocimiento facial y servidor | Pendiente | Depende de las decisiones técnicas anteriores |
-| Preparar pruebas integrales | Pendiente | Probar el flujo completo cuando exista una versión integrada |
+| API C# con SQL Server | Implementada y compilada según verificación del equipo | Código en `src/backend/SistemaAsistenciaAPI` |
+| Registro, consulta, modificación y desactivación de trabajadores | Implementados | Controlador `TrabajadoresController` |
+| Registro de entradas y salidas con CI | Implementado para pruebas | Controlador `MarcacionesController`; no verifica identidad facial |
+| Historial y consulta general de marcaciones | Implementados | Endpoints documentados en [API](../api/README.md) |
+| Filtro por fecha y reporte por periodo | Implementados | El reporte cuenta marcaciones, no calcula horas ni tardanzas |
+| Script SQL Server | Publicado | `src/database/01_crear_base_datos.sql` |
+| Aplicación MAUI Android | Implementada como captura/previsualización | `src/mobile/BenailuTech`; no conectada con API |
+| Reconocimiento facial | Pendiente | Seleccionar tecnología, algoritmo y lugar de procesamiento |
+| Integración Android–API | Pendiente | Definir contrato HTTP y seguridad |
+| Autenticación y autorización | Pendientes | Diseñar roles, permisos y protección de endpoints |
+| Pruebas automatizadas | Pendientes | Crear pruebas unitarias e integración |
+| Validación desde clon limpio | Pendiente de documentar | Repetir guía en entorno externo con SQL Server configurado |
+| Revisar fechas y responsables del Gantt | Pendiente | Confirmar compromisos actuales del equipo |
 
-## Acuerdos tecnológicos actuales
-- Dispositivo de marcación previsto: teléfono Android compartido.
-- Identificación prevista: reconocimiento facial.
-- Servidor: C# / ASP.NET Core Web API.
+## Decisiones tecnológicas confirmadas
+
+- Terminal previsto: teléfono Android compartido.
+- Backend: C# / ASP.NET Core Web API (.NET 10).
+- Aplicación: .NET MAUI dirigida a Android (.NET 10).
 - Base de datos: SQL Server.
-- Acceso a datos del backend: Microsoft.Data.SqlClient.
+- Acceso a datos: Microsoft.Data.SqlClient.
 
-## Alcance de las pruebas realizadas
-Las pruebas del backend se realizaron localmente con datos de prueba. Se verificaron operaciones de trabajadores, registro de entrada y salida, historial, consulta general, filtro por fecha y reporte de cantidades por periodo.
+## Alcance de las pruebas
 
-Estas pruebas no validan reconocimiento facial, integración Android, despliegue en un servidor ni seguridad para producción. El código fuente del backend y el script SQL todavía deben incorporarse al repositorio.
+El equipo informa que verificó la compilación de los proyectos y las operaciones funcionales del backend localmente. Las solicitudes de prueba cubren trabajadores, marcaciones, historial, filtro por fecha y reporte por periodo. Esto no valida reconocimiento facial, integración móvil, despliegue ni seguridad para producción.
+
+## Gestión de trabajo
+
+Registrar tareas, defectos y bloqueos en GitHub Issues. Utilizar las plantillas de `.github/ISSUE_TEMPLATE/` y relacionar los Pull Requests con el Issue correspondiente.
