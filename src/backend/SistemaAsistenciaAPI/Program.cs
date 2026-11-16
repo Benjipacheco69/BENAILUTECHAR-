@@ -18,17 +18,13 @@ app.MapGet("/api/conexion", async () =>
     {
         using var conexion = new SqlConnection(connectionString);
         await conexion.OpenAsync();
-        return Results.Ok(new
-        {
-            mensaje = "Conexión con SQL Server exitosa",
-            baseDatos = conexion.Database
-        });
+        return Results.Ok(new { mensaje = "Conexión con SQL Server exitosa", baseDatos = conexion.Database });
     }
     catch (Exception)
     {
         return Results.Problem(
-            detail = "No se pudo establecer conexión con SQL Server. Revise la configuración local.",
-            title = "Error de conexión con SQL Server"
+            detail: "No se pudo establecer conexión con SQL Server. Revise la configuración local.",
+            title: "Error de conexión con SQL Server"
         );
     }
 });
