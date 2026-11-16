@@ -1,8 +1,10 @@
 # Diagramas
 
-Los diagramas deben representar el alcance actual de Benailu Tech: terminal Android compartido, reconocimiento facial, servidor C# y SQL Server.
+Los diagramas se mantienen junto a la documentación que los explica para evitar copias desactualizadas.
 
-- [Flujo de registro de trabajador y marcación](../arquitectura/README.md): muestra los procesos propuestos de enrolamiento e identificación facial.
-- [Gantt del proyecto](../proyecto/GANTT.md): cronograma inicial que debe revisarse con el equipo.
+- [Diagrama de arquitectura implementada](../arquitectura.md): cliente de prueba, API ASP.NET Core, acceso SQL y base de datos; indica que la app móvil aún no está integrada.
+- [Arquitectura y flujos propuestos](../arquitectura/README.md): distingue los flujos actuales de las funciones futuras de reconocimiento facial.
+- [Modelo entidad-relación](../modelo-de-datos.md): entidades, atributos, claves y relaciones de SQL Server.
+- [Gantt del proyecto](../proyecto/GANTT.md): cronograma inicial, con fechas tentativas sujetas a revisión del equipo.
 
-Los diagramas son representaciones de diseño, no evidencia de que las funciones estén implementadas. Los nuevos diagramas de arquitectura, datos y casos de uso deberán actualizarse cuando se confirmen las decisiones técnicas.
+Los diagramas conceptuales no representan funcionalidades ya implementadas. Actualizarlos cuando cambien los componentes o las decisiones técnicas.
