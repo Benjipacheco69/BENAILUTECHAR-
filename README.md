@@ -89,9 +89,10 @@ Las carpetas src/backend y src/database están preparadas, pero el código backe
 - [Integrantes y roles](docs/equipo/integrantes-y-roles.md)
 - [Acuerdos de trabajo](docs/equipo/acuerdos-de-trabajo.md)
 - [Manuales](docs/manuales/README.md)
+- [Manual de instalación y ejecución](docs/manuales/instalacion-y-ejecucion.md)
 
 ## Ejecución
-Las instrucciones definitivas se agregarán cuando el backend y su script de base de datos estén versionados. Para ejecutar la versión local actual se requiere Visual Studio, el SDK de .NET utilizado por el proyecto, SQL Server y una cadena de conexión configurada localmente. No se debe publicar la cadena de conexión personal.
+El procedimiento de preparación, configuración y ejecución está descrito en el [Manual de instalación y ejecución](docs/manuales/instalacion-y-ejecucion.md). La ejecución todavía no puede reproducirse desde una copia limpia del repositorio porque el código backend y el script SQL aún no están publicados en `src/backend/` y `src/database/`. La versión local del equipo se probó con Visual Studio y SQL Server; no se deben publicar cadenas de conexión personales ni secretos.
 
 ## Colaboración
 Los cambios deben organizarse mediante commits descriptivos y revisión del equipo. Cada integrante debe coordinar la integración de sus componentes para evitar sobrescribir el trabajo de los demás.
