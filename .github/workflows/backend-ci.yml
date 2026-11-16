@@ -1,0 +1,28 @@
+name: Build backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/backend/**"
+      - ".github/workflows/backend-ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/backend/**"
+      - ".github/workflows/backend-ci.yml"
+
+jobs:
+  build-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configurar .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restaurar dependencias
+        run: dotnet restore src/backend/SistemaAsistenciaAPI/SistemaAsistenciaAPI.csproj
+      - name: Compilar API
+        run: dotnet build src/backend/SistemaAsistenciaAPI/SistemaAsistenciaAPI.csproj --no-restore --configuration Release
