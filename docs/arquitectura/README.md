@@ -1,119 +1,66 @@
-# Arquitectura propuesta
+# Arquitectura y decisiones técnicas
 
-## Componentes principales
+## Componentes actuales
 
-### 1. Terminal Android
-Teléfono compartido ubicado en la entrada de la empresa. Presentará la interfaz de marcación y utilizará su cámara para iniciar la identificación facial. La tecnología concreta para desarrollar esta aplicación queda pendiente.
+### Aplicación móvil
 
-### 2. Servidor C#
-La primera versión del servidor se desarrolló como una API ASP.NET Core en C#. Se probó localmente y permite registrar, consultar, modificar y desactivar trabajadores; registrar entradas y salidas; consultar historiales; filtrar marcaciones por fecha y generar conteos por trabajador y periodo.
+Proyecto .NET MAUI con destino `net10.0-android`. La pantalla principal solicita permiso de cámara, permite capturar una fotografía y muestra una previsualización. Todavía no envía solicitudes HTTP al backend ni realiza reconocimiento facial.
 
-El código fuente todavía debe incorporarse a src/backend en este repositorio. La API local se comunica con SQL Server mediante Microsoft.Data.SqlClient.
+### Backend
 
-### 3. Base de datos
-SQL Server almacena los datos básicos de los trabajadores y las marcaciones. En la versión local se utilizaron las tablas Trabajadores y Marcaciones. También se creó una tabla DatosFaciales para una futura etapa, pero el enrolamiento y el reconocimiento facial todavía no están implementados.
+API ASP.NET Core Web API en C# sobre .NET 10. Incluye controladores para trabajadores y marcaciones. La lógica de acceso a datos utiliza `Microsoft.Data.SqlClient` y la cadena `ConnectionStrings:ConexionSQL`.
 
-El script SQL reproducible debe incorporarse a src/database. No se deben publicar cadenas de conexión personales ni datos biométricos reales.
+Operaciones implementadas: registro, listado, búsqueda, modificación y desactivación de trabajadores; registro de entradas/salidas por CI; consulta general, historial, filtro por fecha y reporte de conteos por periodo.
 
-### 4. Módulo de reconocimiento facial
-Este módulo permitirá enrolar a los trabajadores autorizados y realizar su identificación durante la marcación. La biblioteca, el algoritmo y la ubicación del procesamiento (teléfono, servidor o combinación) se decidirán durante el diseño técnico y la programación.
+### Base de datos
 
-### 5. Consultas y reportes
-La API local ya permite consultar todas las marcaciones, filtrar por fecha, consultar el historial de un trabajador por CI y generar un resumen de entradas, salidas y total de marcaciones por trabajador en un periodo.
+SQL Server con base `SistemaAsistencia` y tablas `Trabajadores`, `DatosFaciales` y `Marcaciones`. El script está en `src/database/01_crear_base_datos.sql`.
 
-El reporte actual cuenta marcaciones; todavía no calcula horas trabajadas, tardanzas, ausencias ni cumplimiento de horarios.
+La tabla `DatosFaciales` existe como preparación, pero no hay implementación de enrolamiento o comparación facial.
 
-## Flujo actual de administración de trabajadores
+## Diagrama del sistema actual
 
-    Personal autorizado / solicitud de prueba
-                 |
-                 v
-       API C# - módulo de trabajadores
-                 |
-                 v
-         Validar y procesar datos
-                 |
-                 v
-        SQL Server - Trabajadores
+```mermaid
+flowchart LR
+    A["Cliente HTTP / solicitudes de prueba"] --> B["ASP.NET Core Web API (.NET 10)"]
+    B --> C["Microsoft.Data.SqlClient"]
+    C --> D[("SQL Server")]
+    M["App .NET MAUI Android"] -. "sin integración HTTP" .-> B
+```
 
-## Flujo actual de marcación de prueba
+## Flujo de marcación actual
 
-    Solicitud HTTP con CI y tipo
-                 |
-                 v
-       API C# - módulo de marcaciones
-                 |
-                 v
-     Comprobar trabajador activo y alternancia
-                 |
-                 v
-        SQL Server - Marcaciones
-                 |
-                 v
-          Respuesta de confirmación
+1. Cliente de prueba envía CI y tipo ENTRADA/SALIDA.
+2. API comprueba que el trabajador exista y esté activo.
+3. API valida la alternancia diaria.
+4. API inserta la marcación con fecha y hora de SQL Server.
+5. API devuelve el resultado.
 
-Este es el flujo probado localmente. No realiza reconocimiento facial y no debe utilizarse como prueba de identidad del trabajador.
+Este flujo no verifica la identidad del trabajador mediante cámara ni biometría.
 
-## Flujo futuro con Android y reconocimiento facial
+## Flujo futuro propuesto
 
-    Trabajador utiliza el teléfono Android
-                 |
-                 v
-       La cámara captura información facial
-                 |
-                 v
-       Módulo de reconocimiento intenta identificar
-                 |
-                 v
-            ¿Identidad confirmada?
-              /             \
-            No               Sí
-            |                |
-      Mostrar mensaje   Enviar solicitud segura
-      y no marcar       al servidor C#
-                               |
-                               v
-                       Validar autorización
-                               |
-                               v
-                           SQL Server
-                               |
-                               v
-                        Mostrar resultado
-
-El flujo futuro es conceptual. La forma exacta de enviar los datos, el lugar del procesamiento facial y la regla para distinguir entrada y salida deben definirse antes de la integración.
-
-## Responsabilidad de cada componente
-
-| Componente | Responsabilidad |
-|---|---|
-| Terminal Android | Interacción con el trabajador y uso de la cámara |
-| Servidor C# | Reglas de negocio, coordinación y acceso a datos |
-| Módulo facial | Enrolamiento e identificación |
-| SQL Server | Persistencia de trabajadores y asistencias |
-| Consultas y reportes | Presentación de información al personal autorizado |
+El teléfono Android capturará la información necesaria para identificar al trabajador mediante una tecnología facial que aún debe seleccionarse. Si la identidad se confirma, enviará una solicitud autenticada a la API para registrar la marcación. El flujo, el formato de datos y la ubicación del procesamiento facial están pendientes de diseño.
 
 ## Decisiones confirmadas
-- El dispositivo de marcación será un teléfono Android compartido.
-- La identificación prevista será mediante reconocimiento facial.
-- El servidor será desarrollado en C#.
-- La base de datos será SQL Server.
-- Existe una primera versión local de la API C# probada con SQL Server.
+
+- Backend: C# / ASP.NET Core Web API, .NET 10.
+- Aplicación móvil: .NET MAUI para Android, .NET 10.
+- Base de datos: SQL Server.
+- Acceso a datos: Microsoft.Data.SqlClient.
+- Terminal previsto: teléfono Android compartido.
+- Identificación prevista: reconocimiento facial, aún no implementado.
 
 ## Decisiones pendientes
-- Tecnología y estructura de la aplicación Android.
-- Biblioteca y método de reconocimiento facial.
-- Lugar donde se ejecutará el procesamiento biométrico.
-- Contratos y mecanismo seguro de comunicación entre Android y el servidor.
-- Incorporación del código backend y del script SQL al repositorio.
-- Autenticación, autorización y protección de los datos.
-- Reglas adicionales para horarios, tardanzas, ausencias y excepciones.
-- Funcionamiento ante pérdida de conexión.
 
-## Seguridad y privacidad
-El acceso a los datos de trabajadores y a la información biométrica debe estar restringido. Se evaluará almacenar representaciones biométricas protegidas en lugar de fotografías completas, siempre que la solución técnica elegida lo permita. No se debe implementar ni publicar el manejo de datos biométricos sin definir previamente su protección y los permisos correspondientes.
+- Biblioteca y algoritmo facial.
+- Procesamiento en el teléfono, servidor o enfoque híbrido.
+- Contrato de API para la futura identificación y marcación.
+- Autenticación, autorización y administración de roles.
+- Almacenamiento, cifrado, retención y protección de datos biométricos.
+- Política ante pérdida de conectividad.
+- Reglas de horarios, tardanzas, ausencias y cálculo de horas.
 
-La API local actual es un prototipo de desarrollo y no implementa autenticación ni autorización. Antes de utilizarla con trabajadores reales se deben incorporar controles de acceso, protección de comunicaciones, manejo seguro de secretos y pruebas de seguridad.
+## Seguridad
 
-## Estado de implementación
-El backend C# y su conexión con SQL Server están implementados y probados localmente, pero su código fuente todavía no está en este repositorio. La aplicación Android, el reconocimiento facial y la integración completa siguen pendientes.
+La API actual no implementa autenticación ni autorización. No utilizarla con datos reales hasta definir controles de acceso, transporte seguro, auditoría, protección de información personal y biométrica y pruebas de seguridad.
