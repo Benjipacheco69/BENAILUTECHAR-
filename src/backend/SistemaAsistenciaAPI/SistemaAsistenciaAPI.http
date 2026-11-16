@@ -1,0 +1,47 @@
+@baseUrl = https://localhost:7049
+
+### Verificar conexión SQL Server
+GET {{baseUrl}}/api/conexion
+
+### Registrar trabajador
+POST {{baseUrl}}/api/Trabajadores
+Content-Type: application/json
+
+{
+  "ci": "7654321",
+  "nombres": "Maria",
+  "apellidos": "Lopez"
+}
+
+### Buscar trabajador
+GET {{baseUrl}}/api/Trabajadores/7654321
+
+### Listar trabajadores
+GET {{baseUrl}}/api/Trabajadores
+
+### Registrar entrada
+POST {{baseUrl}}/api/Marcaciones
+Content-Type: application/json
+
+{
+  "ci": "7654321",
+  "tipo": "ENTRADA"
+}
+
+### Registrar salida
+POST {{baseUrl}}/api/Marcaciones
+Content-Type: application/json
+
+{
+  "ci": "7654321",
+  "tipo": "SALIDA"
+}
+
+### Consultar historial
+GET {{baseUrl}}/api/Marcaciones/7654321
+
+### Filtrar marcaciones por fecha
+GET {{baseUrl}}/api/Marcaciones?fecha=2026-11-15
+
+### Reporte por periodo
+GET {{baseUrl}}/api/Marcaciones/reporte?fechaInicio=2026-11-01&fechaFin=2026-11-30
