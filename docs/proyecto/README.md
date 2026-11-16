@@ -2,96 +2,71 @@
 
 ## Identificación
 
-- **Proyecto:** Benailu Tech
-- **Sistema:** control de asistencia mediante reconocimiento facial desde un teléfono Android compartido.
-- **Materia:** Programación II
-- **Carrera:** Ingeniería en Sistemas
-- **Universidad:** Universidad Privada Franz Tamayo
-- **Docente:** Ing. Diego Patrick Cardenas Sejas
-- **Ubicación indicada en el documento:** Cochabamba, Bolivia.
+- **Proyecto:** Benailu Tech.
+- **Sistema:** control de asistencia con objetivo de identificación facial desde un teléfono Android compartido.
+- **Materia:** Programación II.
+- **Carrera:** Ingeniería en Sistemas.
+- **Universidad:** Universidad Privada Franz Tamayo.
+- **Docente:** Ing. Diego Patrick Cardenas Sejas.
+- **Ubicación indicada en el documento del proyecto:** Cochabamba, Bolivia.
 
-## Descripción
+## Descripción y propósito
 
-El proyecto contempla utilizar un teléfono Android ubicado en la entrada de la empresa como terminal de marcación. Los trabajadores utilizarán la cámara del dispositivo para identificarse mediante reconocimiento facial. Un servidor desarrollado en C# gestiona las operaciones y SQL Server almacena los datos de trabajadores y asistencias.
+El sistema busca centralizar el registro de entrada y salida de trabajadores. La arquitectura objetivo contempla un teléfono Android en la entrada, identificación facial, un servidor C# y SQL Server.
 
-La primera versión del backend C# ya fue implementada y probada localmente: incluye conexión con SQL Server, administración de trabajadores, registro y consulta de marcaciones, filtro por fecha y reportes básicos. El código fuente del backend y el script SQL todavía deben incorporarse al repositorio.
+La versión publicada incluye:
+- API ASP.NET Core en C# (.NET 10) con operaciones de trabajadores y marcaciones.
+- Aplicación .NET MAUI para Android (.NET 10) que solicita permiso de cámara y captura/previsualiza una fotografía.
+- Script SQL Server para crear la base y tablas utilizadas por el backend.
 
-El reconocimiento facial, la aplicación Android y su integración con el servidor siguen pendientes.
+La app no está conectada con la API. La cámara no realiza reconocimiento facial. La marcación de la API utiliza CI como dato de prueba y no verifica identidad.
 
-## Usuarios finales
+## Usuarios objetivo
 
-- **Trabajadores:** realizarán sus marcaciones en el teléfono Android compartido.
-- **Personal administrativo autorizado:** registra trabajadores y consulta asistencias.
-- **Responsables de la empresa:** revisan los registros y reportes.
+- Trabajadores: utilizarán el teléfono Android compartido para registrar asistencia cuando se implemente el flujo biométrico.
+- Personal administrativo autorizado: administra trabajadores y consulta asistencias.
+- Responsables de la empresa: revisan registros y reportes.
 
 ## Componentes y tecnologías
 
-| Componente | Definición actual |
+| Componente | Tecnología / estado |
 |---|---|
-| Terminal de marcación | Teléfono Android compartido, pendiente |
-| Identificación | Reconocimiento facial, pendiente |
-| Servidor | C# / ASP.NET Core Web API, primera versión local probada |
+| API | C# / ASP.NET Core Web API, .NET 10 |
 | Acceso a datos | Microsoft.Data.SqlClient |
-| Base de datos | SQL Server, utilizada por el backend local |
-| Tecnología de la aplicación Android | Pendiente de definir |
-| Biblioteca y algoritmo facial | Pendiente de definir |
-| Comunicación Android-servidor | Pendiente de diseñar e integrar |
+| Base de datos | SQL Server |
+| Aplicación móvil | .NET MAUI, Android, .NET 10 |
+| Reconocimiento facial | Pendiente de selección e implementación |
+| Integración Android–API | Pendiente |
 
 ## Gantt
 
-![Diagrama de Gantt inicial de Benailu Tech](../../assets/images/gantt-benailu-tech.svg)
+![Diagrama Gantt inicial](../../assets/images/gantt-benailu-tech.svg)
 
-[Ver Gantt editable y sus fechas](GANTT.md). Las fechas son tentativas y deben revisarse según el avance real del equipo.
-
-## Cronograma inicial
-
-| Actividad | Inicio | Fin | Responsable |
-|---|---|---|---|
-| Análisis y validación de requisitos | 05/10/2026 | 16/10/2026 | Todos |
-| Diseño de arquitectura y prototipo Android | 12/10/2026 | 30/10/2026 | Interfaz |
-| Revisión del modelo de datos SQL Server | 19/10/2026 | 06/11/2026 | Líder / BD |
-| Diseño del módulo de reconocimiento facial | 19/10/2026 | 13/11/2026 | Por confirmar |
-| Diseño de interfaz del terminal Android | 26/10/2026 | 20/11/2026 | Interfaz |
-| Servidor C# e integración de componentes | 16/11/2026 | 27/11/2026 | Por confirmar |
-| Pruebas y corrección de errores | 23/11/2026 | 04/12/2026 | Por confirmar |
-| Documentación y presentación final | 30/11/2026 | 11/12/2026 | Todos |
-
-Las fechas son tentativas y deben actualizarse según el avance real del equipo. El backend inicial se adelantó y ya fue probado localmente; la integración completa sigue pendiente.
+Consultar el [Gantt y fechas tentativas](GANTT.md). El equipo debe actualizar responsables y fechas con base en el avance real.
 
 ## Recursos
 
-### Hardware
-
-- Computadora o laptop para desarrollo y administración.
-- Teléfono Android con cámara para utilizarlo como terminal compartido.
-- Conectividad necesaria para la comunicación con el servidor, según la arquitectura que se defina.
-
-### Software
-
-- C# / ASP.NET Core para el servidor.
-- Microsoft.Data.SqlClient para el acceso a datos.
-- SQL Server para la base de datos.
-- Tecnología Android y herramientas de reconocimiento facial por seleccionar.
-
-Ya no se considera un lector físico de huellas como dispositivo principal del sistema.
+- Computadora para desarrollo y administración.
+- Teléfono Android con cámara para el terminal previsto.
+- SQL Server y herramienta de administración.
+- .NET SDK 10, Visual Studio y Android SDK.
 
 ## Riesgos y aspectos por resolver
 
-- Calidad de la captura facial y condiciones de iluminación.
-- Selección de la biblioteca y método de reconocimiento facial.
-- Decisión sobre el lugar donde se procesarán los datos biométricos.
-- Protección de la información biométrica y personal.
-- Conectividad entre el teléfono y el servidor.
-- Autenticación y autorización para las operaciones del sistema.
-- Reglas adicionales para horarios, tardanzas y ausencias.
-- Incorporación del backend y del script SQL al repositorio.
+- Selección y validación de tecnología de reconocimiento facial.
+- Condiciones de iluminación y calidad de captura.
+- Protección de datos biométricos y personales.
+- Conectividad entre teléfono y servidor.
+- Autenticación y autorización.
+- Reglas de horarios, tardanzas, ausencias y excepciones.
+- Pruebas integrales del flujo móvil–API–SQL Server.
 
 ## Próximos pasos
 
-1. Incorporar el proyecto backend C# a src/backend sin publicar secretos ni archivos generados.
-2. Incorporar un script SQL reproducible a src/database.
-3. Revisar y completar la documentación técnica de la API.
-4. Elegir la tecnología de la aplicación Android y el método de reconocimiento facial.
-5. Diseñar la comunicación segura entre Android y el servidor C#.
-6. Implementar autenticación y autorización.
-7. Integrar, probar y documentar el sistema completo.
+1. Elegir biblioteca y método de reconocimiento facial.
+2. Definir si el procesamiento se realizará en Android, servidor o ambos.
+3. Diseñar el contrato de comunicación y seguridad entre app y API.
+4. Implementar autenticación y autorización.
+5. Integrar la app con la API.
+6. Añadir pruebas automatizadas e integrales.
+7. Actualizar el Gantt y la asignación nominal de responsabilidades.
