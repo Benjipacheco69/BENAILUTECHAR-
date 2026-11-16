@@ -1,87 +1,127 @@
 # Manual de instalación y ejecución
 
-## 1. Componentes y alcance
+## 1. Alcance de esta guía
 
-El material fuente entregado por el equipo contiene dos proyectos:
+El repositorio contiene el código de una API ASP.NET Core en C#, una aplicación .NET MAUI para Android y el script SQL Server. El equipo informa que ya verificó la compilación de los proyectos. La guía describe cómo preparar una instalación local; la conexión SQL Server depende de la instancia y credenciales configuradas por cada desarrollador.
 
-- **Aplicación móvil:** .NET MAUI, proyecto `BenailuTech`, dirigido a Android (`net10.0-android`). El código solicita permiso de cámara, captura una fotografía y la muestra en pantalla.
-- **Backend:** ASP.NET Core Web API, proyecto `SistemaAsistenciaAPI`, dirigido a `net10.0`. Utiliza `Microsoft.Data.SqlClient` y la cadena de conexión `ConnectionStrings:ConexionSQL`.
-- **Base de datos:** SQL Server. El script `src/database/01_crear_base_datos.sql` corresponde al archivo SQLQuery6.sql entregado por el equipo.
-
-La cámara no implica reconocimiento facial: en el código móvil revisado no se identificó un motor biométrico ni comunicación HTTP con la API. La integración móvil-backend, el reconocimiento facial y la autenticación/autorización siguen pendientes.
-
-> **Disponibilidad en este repositorio:** se publicó el script SQL y la documentación. El código de los proyectos MAUI y ASP.NET Core todavía debe incorporarse bajo `src/mobile/` y `src/backend/` para que la ejecución pueda hacerse únicamente después de clonar el repositorio. Mientras tanto, utilice los ZIP fuente originales entregados por el equipo.
+La app móvil actualmente solicita permiso de cámara y captura/previsualiza una fotografía. No realiza reconocimiento facial ni envía marcaciones a la API. La API registra marcaciones de prueba mediante CI.
 
 ## 2. Requisitos
 
-- Windows 10/11.
+- Windows 10/11 recomendado para Visual Studio y desarrollo Android.
 - .NET SDK 10.0.
-- Visual Studio con las cargas de trabajo de ASP.NET y .NET MAUI.
-- SQL Server (por ejemplo, SQL Server Express) y SQL Server Management Studio (SSMS) o herramienta equivalente.
-- Android SDK, emulador o dispositivo Android para ejecutar la aplicación móvil.
+- Visual Studio con las cargas de trabajo ASP.NET y .NET MAUI.
+- .NET MAUI workload Android y Android SDK.
+- Emulador o dispositivo Android con cámara.
+- Microsoft SQL Server y SSMS o herramienta equivalente.
 - Git.
 
-Compruebe la versión del SDK:
+Verifica el SDK:
 
 ```bash
 dotnet --list-sdks
 ```
 
-Los proyectos entregados apuntan a `net10.0` (API) y `net10.0-android` (MAUI).
+## 3. Obtener el proyecto
 
-## 3. Crear la base de datos
+```bash
+git clone https://github.com/Benjipacheco69/BENAILUTECHAR-.git
+cd BENAILUTECHAR-
+```
 
-1. Inicie el servicio de SQL Server.
-2. Abra SSMS y conéctese a su instancia de desarrollo.
-3. Abra y ejecute `src/database/01_crear_base_datos.sql`.
-4. Compruebe que se creó la base `SistemaAsistencia` y las tablas `Trabajadores`, `DatosFaciales` y `Marcaciones`.
+La solución de la raíz es `BenailuTech.slnx` e incluye los proyectos backend y móvil.
 
-El script es el SQLQuery6.sql entregado por el equipo. Además de crear las tablas, inserta el trabajador de prueba CI `1234567` y una marcación ENTRADA si aún no existen. Revise el script antes de ejecutarlo en una base que contenga datos: está diseñado para desarrollo/prueba y no sustituye un procedimiento de migración de producción.
+## 4. Crear la base de datos
 
-## 4. Configurar la conexión del backend
+1. Inicia SQL Server y abre SSMS.
+2. Conéctate a la instancia local o de desarrollo.
+3. Abre y ejecuta `src/database/01_crear_base_datos.sql`.
+4. Comprueba la creación de `SistemaAsistencia` y las tablas `Trabajadores`, `DatosFaciales` y `Marcaciones`.
 
-En el proyecto API, la clave utilizada es `ConnectionStrings:ConexionSQL`. Configure la cadena para su propia instancia SQL Server. Ejemplo para SQL Server Express con autenticación integrada:
+El script crea las tablas si no existen e inserta un trabajador de prueba con CI `1234567` y una marcación ENTRADA cuando no hay una previa para ese trabajador. Revisa el contenido antes de ejecutarlo en una base que ya tenga información. No es un mecanismo de migración para producción.
+
+## 5. Configurar SQL Server
+
+El backend lee la cadena desde `ConnectionStrings:ConexionSQL`. El archivo versionado contiene un ejemplo local con autenticación integrada:
 
 ```json
 {
   "ConnectionStrings": {
-    "ConexionSQL": "Server=localhost\\SQLEXPRESS;Database=SistemaAsistencia;Integrated Security=True;TrustServerCertificate=True;"
+    "ConexionSQL": "Server=localhost;Database=SistemaAsistencia;Integrated Security=True;TrustServerCertificate=True;"
   }
 }
 ```
 
-Puede usar User Secrets o variables de entorno para evitar guardar credenciales. No suba contraseñas, cadenas de conexión personales ni secretos al repositorio.
+Cambia `Server` por el nombre de tu instancia, por ejemplo `localhost\\SQLEXPRESS`. Si utilizas autenticación SQL, guarda el usuario y contraseña en User Secrets o variables de entorno, nunca en un commit.
 
-## 5. Ejecutar el backend
-
-Con el proyecto fuente disponible localmente, abra `SistemaAsistenciaAPI.csproj` en Visual Studio o ejecute desde la carpeta del proyecto:
+Con User Secrets, desde la carpeta del backend:
 
 ```bash
-dotnet restore
-dotnet build
-dotnet run
+dotnet user-secrets init
+dotnet user-secrets set "ConnectionStrings:ConexionSQL" "Server=localhost\\SQLEXPRESS;Database=SistemaAsistencia;Integrated Security=True;TrustServerCertificate=True;"
 ```
 
-La URL efectiva se muestra en la consola. El perfil de desarrollo entregado incluye `https://localhost:7049`; el puerto puede variar según el perfil y el equipo.
+Para la configuración anterior se debe utilizar el modo de autenticación compatible con la instancia SQL Server. No reutilices datos de conexión de otra persona.
 
-La API expone `/api/conexion` para comprobar la conexión con SQL Server. En desarrollo también se configura OpenAPI mediante `MapOpenApi`; no se identificó una interfaz Swagger UI explícita en los paquetes/código revisados.
+## 6. Restaurar, compilar y ejecutar la API
 
-## 6. Endpoints identificados
+Desde la raíz:
+
+```bash
+dotnet restore src/backend/SistemaAsistenciaAPI/SistemaAsistenciaAPI.csproj
+dotnet build src/backend/SistemaAsistenciaAPI/SistemaAsistenciaAPI.csproj
+dotnet run --project src/backend/SistemaAsistenciaAPI/SistemaAsistenciaAPI.csproj
+```
+
+Los perfiles locales están en `Properties/launchSettings.json`:
+
+- HTTPS: `https://localhost:7049`
+- HTTP: `http://localhost:5241`
+
+La ruta `GET /api/conexion` comprueba que la API puede abrir una conexión SQL Server. En desarrollo, OpenAPI se expone en `/openapi/v1.json`; el proyecto no configura una interfaz Swagger UI.
+
+## 7. Compilar y ejecutar la aplicación Android
+
+Instala el workload si todavía no está disponible:
+
+```bash
+dotnet workload install maui-android
+```
+
+Compila:
+
+```bash
+dotnet restore src/mobile/BenailuTech/BenailuTech.csproj
+dotnet build src/mobile/BenailuTech/BenailuTech.csproj -f net10.0-android
+```
+
+También puedes abrir `BenailuTech.slnx` en Visual Studio, seleccionar el proyecto BenailuTech y elegir un emulador o dispositivo Android.
+
+Al iniciar la aplicación:
+1. Selecciona **CAPTURAR ROSTRO**.
+2. Concede permiso de cámara cuando Android lo solicite.
+3. Captura una fotografía y comprueba la previsualización.
+4. Usa **REPETIR CAPTURA** para limpiar la imagen.
+
+Esta función es únicamente captura/previsualización. No compara rostros, no identifica trabajadores y no registra asistencia.
+
+## 8. Endpoints de la API
 
 | Método | Ruta | Descripción |
 |---|---|---|
+| GET | `/api/conexion` | Verificar conexión SQL Server |
 | POST | `/api/Trabajadores` | Registrar trabajador |
 | GET | `/api/Trabajadores` | Listar trabajadores |
-| GET | `/api/Trabajadores/{ci}` | Buscar por CI |
+| GET | `/api/Trabajadores/{ci}` | Buscar trabajador activo por CI |
 | PUT | `/api/Trabajadores/{id}` | Modificar trabajador |
 | PATCH | `/api/Trabajadores/{id}/desactivar` | Desactivar trabajador |
-| POST | `/api/Marcaciones` | Registrar entrada o salida |
-| GET | `/api/Marcaciones` | Consultar marcaciones |
+| POST | `/api/Marcaciones` | Registrar ENTRADA o SALIDA |
+| GET | `/api/Marcaciones` | Consultar todas las marcaciones |
 | GET | `/api/Marcaciones?fecha=AAAA-MM-DD` | Filtrar por fecha |
 | GET | `/api/Marcaciones/{ci}` | Consultar historial por CI |
 | GET | `/api/Marcaciones/reporte?fechaInicio=AAAA-MM-DD&fechaFin=AAAA-MM-DD` | Conteos por trabajador y periodo |
 
-Ejemplo de solicitud para crear un trabajador:
+Ejemplo de trabajador:
 
 ```http
 POST /api/Trabajadores
@@ -94,7 +134,7 @@ Content-Type: application/json
 }
 ```
 
-Ejemplo para registrar una entrada:
+Ejemplo de marcación:
 
 ```http
 POST /api/Marcaciones
@@ -106,38 +146,26 @@ Content-Type: application/json
 }
 ```
 
-Para una salida, use `SALIDA`. La lógica de la API exige que la primera marcación del día sea ENTRADA y que las siguientes alternen entre ENTRADA y SALIDA.
+El tipo debe ser `ENTRADA` o `SALIDA`. La primera marcación del día debe ser ENTRADA y las posteriores deben alternar. Los ejemplos se encuentran en `src/backend/SistemaAsistenciaAPI/SistemaAsistenciaAPI.http`.
 
-## 7. Ejecutar la aplicación MAUI
+## 9. Pruebas y verificación
 
-1. Abra `BenailuTech.csproj` en Visual Studio.
-2. Seleccione un emulador o dispositivo Android.
-3. Restaure paquetes, compile y ejecute.
-4. Conceda el permiso de cámara.
-5. Pruebe los controles de captura y repetición de captura.
+El equipo informa que verificó la compilación de los proyectos. El backend incluye solicitudes HTTP manuales para registrar/listar/buscar/modificar/desactivar trabajadores, registrar entradas/salidas, consultar historial, filtrar por fecha y generar reportes. Para repetirlas:
 
-El comportamiento observado es captura y visualización de fotografía. No se debe presentar como identificación facial ni como registro de asistencia integrado.
+1. Ejecuta el script SQL.
+2. Configura y ejecuta la API.
+3. Abre el archivo `.http` en Visual Studio o un editor compatible.
+4. Ejecuta las solicitudes de una en una, verificando respuestas y registros en SQL Server.
+5. Prueba también una salida como primera marcación y dos entradas consecutivas; ambas deben ser rechazadas por las reglas de alternancia.
 
-## 8. Pruebas y reproducibilidad
+No se incluye aún un proyecto de pruebas automatizadas. Las pruebas manuales no equivalen a una validación de seguridad ni a una prueba integral de reconocimiento facial.
 
-El material entregado incluye un archivo `SistemaAsistenciaAPI.http` para pruebas manuales de endpoints. No se encontró un proyecto de pruebas automatizadas en los archivos revisados.
+## 10. Seguridad y limitaciones
 
-Para una verificación manual:
-- Crear un trabajador de prueba.
-- Consultarlo por CI y listar trabajadores.
-- Registrar ENTRADA y luego SALIDA.
-- Comprobar que la API rechaza una secuencia que no respete la alternancia.
-- Consultar historial, filtro por fecha y reporte.
-- Verificar los registros en SQL Server.
-
-Estas instrucciones describen pruebas manuales; no constituyen evidencia de una ejecución automatizada ni de una validación independiente en un equipo limpio.
-
-## 9. Limitaciones y tareas pendientes
-
-- Publicar el código fuente MAUI y ASP.NET Core en sus carpetas del repositorio.
-- Verificar la instalación completa desde un clon limpio.
-- Incorporar pruebas automatizadas.
-- Integrar la app móvil con la API.
-- Implementar reconocimiento facial si continúa siendo requisito.
-- Añadir autenticación, autorización, auditoría y protección de datos personales/biométricos antes de cualquier uso real.
-- El reporte actual cuenta marcaciones; no calcula horas trabajadas, tardanzas ni ausencias.
+- No hay autenticación ni autorización en la API actual.
+- No publiques cadenas de conexión, contraseñas, tokens ni datos personales.
+- No uses información biométrica real en las pruebas.
+- La app no está integrada con la API y no reconoce rostros.
+- La marcación de prueba usa CI y no verifica identidad.
+- El reporte cuenta entradas/salidas; no calcula horas, tardanzas, ausencias ni cumplimiento de horarios.
+- Antes de uso real se requieren controles de acceso, transporte seguro, auditoría, privacidad biométrica, política de retención y pruebas de seguridad.
