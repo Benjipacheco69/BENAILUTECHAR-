@@ -1,13 +1,5 @@
 # Manuales
 
-En esta carpeta se documentan los procedimientos para preparar, configurar, ejecutar y utilizar Benailu Tech.
+- [Manual de instalación y ejecución](instalacion-y-ejecucion.md): requisitos .NET/MAUI/Android, creación de SQL Server, configuración local, compilación y ejecución de API y aplicación móvil, endpoints y pruebas manuales.
 
-## Documentación disponible
-
-- [Manual de instalación y ejecución](instalacion-y-ejecucion.md): herramientas necesarias, preparación de SQL Server, configuración local, ejecución de la API, operaciones de prueba, solución de problemas y tareas pendientes para reproducir el entorno.
-
-## Estado
-
-La guía refleja el estado real conocido del proyecto. La API C# y la conexión con SQL Server fueron probadas localmente por el equipo, pero el código fuente del backend y el script SQL todavía no están incorporados al repositorio. Por esa razón, algunos pasos se presentan como pendientes de verificar desde una instalación limpia.
-
-La aplicación Android, el reconocimiento facial y la integración completa continúan pendientes.
+El equipo informa que ya verificó la compilación de los proyectos. La guía no sustituye la configuración local de SQL Server. El reconocimiento facial, la integración Android–API y la autenticación/autorización siguen pendientes.
