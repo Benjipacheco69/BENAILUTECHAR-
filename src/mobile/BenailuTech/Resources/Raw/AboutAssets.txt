@@ -1,0 +1,2 @@
+Este archivo se incluye como recurso de ejemplo del proyecto .NET MAUI.
+La aplicación actual captura y previsualiza fotografías; no realiza reconocimiento facial.
