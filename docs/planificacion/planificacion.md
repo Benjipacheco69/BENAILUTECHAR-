@@ -1,35 +1,35 @@
 # Planificación
 
-El cronograma siguiente conserva las fechas de la planificación inicial. Debido al cambio de lector de huellas a reconocimiento facial desde un teléfono Android, el equipo debe revisar las fechas, actividades y responsables antes de utilizarlos como compromisos definitivos.
+Este documento conserva la planificación inicial y sus hitos. El proyecto ya dispone de una primera versión de API C# conectada a SQL Server y de una app MAUI Android para captura/previsualización de fotografías. El reconocimiento facial y la integración app–API siguen pendientes.
 
-| Hito | Periodo inicial | Responsable indicado |
+## Hitos
+
+| Hito | Periodo inicial | Responsable |
 |---|---|---|
 | Análisis y validación de requisitos | 05/10/2026–16/10/2026 | Todos |
-| Diseño de arquitectura y prototipo de interfaz | 12/10/2026–30/10/2026 | Interfaz |
-| Revisión y adaptación del modelo de datos SQL Server | 19/10/2026–06/11/2026 | Líder / BD |
+| Diseño de arquitectura y prototipo Android | 12/10/2026–30/10/2026 | Interfaz |
+| Revisión del modelo de datos SQL Server | 19/10/2026–06/11/2026 | Líder / BD |
 | Diseño del módulo de reconocimiento facial | 19/10/2026–13/11/2026 | Por confirmar |
-| Diseño de la interfaz del terminal Android | 26/10/2026–20/11/2026 | Interfaz |
+| Diseño de interfaz del terminal Android | 26/10/2026–20/11/2026 | Interfaz |
 | Desarrollo del servidor C# e integración | 16/11/2026–27/11/2026 | Por confirmar |
 | Pruebas y corrección de errores | 23/11/2026–04/12/2026 | Por confirmar |
 | Documentación y presentación final | 30/11/2026–11/12/2026 | Todos |
 
-## Actividades de implementación
+Las fechas se conservaron de la planificación inicial y son tentativas. El equipo debe revisarlas según el avance real y confirmar los responsables nominales.
 
-1. Confirmar los requisitos y las reglas de marcación.
-2. Revisar el modelo de datos existente y adaptarlo al reconocimiento facial y a las asistencias.
-3. Diseñar la aplicación para el teléfono Android compartido.
-4. Definir e implementar el módulo de enrolamiento e identificación facial.
-5. Desarrollar el servidor en C#.
-6. Conectar el servidor con SQL Server.
-7. Integrar el terminal Android, el servidor y la base de datos.
-8. Implementar consultas y reportes.
-9. Probar el registro de trabajadores, las marcaciones y los casos de error.
-10. Completar los manuales y la documentación.
+## Dependencias principales
+
+1. Validar requisitos y reglas de marcación.
+2. Confirmar el modelo de datos y las necesidades de privacidad biométrica.
+3. Seleccionar la tecnología y biblioteca facial.
+4. Definir dónde se realizará el procesamiento facial.
+5. Diseñar el contrato y la comunicación segura entre Android y la API.
+6. Integrar el flujo completo y preparar pruebas funcionales y de seguridad.
 
 ## Gantt
 
-Consultar el [Gantt del proyecto](../proyecto/GANTT.md).
+Consultar el [Gantt del proyecto](../proyecto/GANTT.md), que conserva la planificación inicial y advierte que no representa avance confirmado.
 
 ## Seguimiento
 
-Actualizar el estado real de cada actividad en los Issues y registrar bloqueos en [seguimiento](seguimiento.md). Las fechas heredadas son tentativas y no demuestran que una actividad haya sido completada.
+El estado de las tareas se mantiene en [seguimiento](seguimiento.md) y debe complementarse con GitHub Issues. Registrar bloqueos, responsables, evidencias y cambios de fechas en cada actualización.
