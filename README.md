@@ -1,29 +1,29 @@
 # Benailu Tech — Sistema de control de asistencia
 
-Benailu Tech es un proyecto de control de asistencia de trabajadores. El repositorio reúne una API ASP.NET Core, una aplicación .NET MAUI y el script SQL Server. El objetivo final contempla marcación desde Android y reconocimiento facial; **esas dos capacidades todavía no están integradas ni implementadas funcionalmente**.
+Proyecto académico para gestionar trabajadores y sus marcaciones de asistencia. El objetivo contempla una aplicación Android, una API ASP.NET Core y SQL Server. La identificación facial y la integración completa entre la app y la API aún no están implementadas.
 
-## Estado real de la solución
+## Estado y alcance verificado
 
 | Componente | Estado |
 |---|---|
-| API ASP.NET Core | Implementada para operaciones de trabajadores y marcaciones |
-| Persistencia SQL Server | Implementada mediante `Microsoft.Data.SqlClient` |
-| Aplicación .NET MAUI | Proyecto inicial Android; la captura/visualización de cámara no equivale a reconocimiento facial |
-| Integración aplicación–API | Pendiente |
-| Reconocimiento facial | Pendiente |
-| Autenticación/autorización | Pendiente |
-| Pruebas automatizadas | No se encontró un proyecto de pruebas automatizadas; las verificaciones documentadas son manuales |
+| API ASP.NET Core | Código fuente entregado por el equipo; implementa operaciones de trabajadores y marcaciones |
+| Base SQL Server | Script SQLQuery6.sql publicado en este repositorio |
+| Aplicación .NET MAUI | Código fuente entregado; captura y visualiza fotografías con la cámara |
+| Integración app–API | Pendiente |
+| Reconocimiento facial | Pendiente; captura de foto no es reconocimiento biométrico |
+| Autenticación y autorización | Pendientes |
+| Pruebas automatizadas | No se encontró proyecto de pruebas automatizadas en el material revisado; hay pruebas manuales HTTP |
 
-La API permite registrar, consultar, modificar y desactivar trabajadores; registrar entradas/salidas; consultar historiales y obtener conteos por periodo. El reporte no calcula horas trabajadas, tardanzas ni ausencias.
+**Importante sobre el contenido publicado:** en este repositorio ya están el README, el manual y el script SQL. Los proyectos fuente completos de MAUI y ASP.NET Core todavía deben añadirse a `src/mobile/` y `src/backend/`. Hasta entonces, las instrucciones de ejecución requieren los ZIP fuente entregados por el equipo y no se puede clonar el repositorio y ejecutar la solución completa sin esos archivos.
 
 ## Tecnologías y requisitos
 
-- .NET SDK 10.0 (los proyectos fuente apuntan a `net10.0` y `net10.0-android`).
-- Visual Studio 2022 actualizado con las cargas de trabajo ASP.NET y .NET MAUI, o CLI de .NET para el backend.
-- SQL Server y SQL Server Management Studio (SSMS) o herramienta equivalente.
-- Para ejecutar Android: Android SDK/emulador o dispositivo compatible y las herramientas MAUI correspondientes.
+- .NET SDK 10.0 (los proyectos fuente entregados apuntan a `net10.0` y `net10.0-android`).
+- Visual Studio con cargas de trabajo ASP.NET y .NET MAUI.
+- SQL Server y SSMS o herramienta equivalente.
+- Android SDK, emulador o dispositivo Android para la app.
 
-## Estructura
+## Estructura publicada
 
 ```text
 .
@@ -31,33 +31,27 @@ La API permite registrar, consultar, modificar y desactivar trabajadores; regist
 │   └── manuales/
 │       └── instalacion-y-ejecucion.md
 ├── src/
-│   ├── backend/
-│   │   └── SistemaAsistenciaAPI/
-│   ├── database/
-│   │   └── 01_crear_base_datos.sql
-│   └── mobile/
-│       └── BenailuTech/
-├── .gitignore
-├── INVENTARIO.md
+│   └── database/
+│       └── 01_crear_base_datos.sql
 └── README.md
 ```
 
-## Preparación rápida
+## Preparar SQL Server
 
-1. Instala .NET 10 SDK y SQL Server.
-2. Ejecuta `src/database/01_crear_base_datos.sql` en SSMS. El script crea `SistemaAsistencia`, las tablas `Trabajadores`, `DatosFaciales` y `Marcaciones`, y agrega un registro de prueba si no existe.
-3. Configura la cadena de conexión `ConexionSQL` en la configuración local de la API. No publiques contraseñas ni cadenas personales.
-4. Desde `src/backend/SistemaAsistenciaAPI` ejecuta:
+1. Abre SQL Server Management Studio y conéctate a una instancia de desarrollo.
+2. Ejecuta `src/database/01_crear_base_datos.sql`.
+3. El script crea la base `SistemaAsistencia` y las tablas `Trabajadores`, `DatosFaciales` y `Marcaciones`.
+4. Inserta un trabajador de prueba con CI `1234567` y una marcación ENTRADA si no existen registros previos para ese trabajador.
 
-   ```bash
-   dotnet restore
-   dotnet build
-   dotnet run
-   ```
+Este script es el archivo SQLQuery6.sql entregado por el equipo. Está orientado a desarrollo/prueba; revísalo antes de ejecutarlo en bases con información existente.
 
-5. Para instrucciones completas, ejemplos HTTP, configuración y limitaciones consulta el [manual de instalación y ejecución](docs/manuales/instalacion-y-ejecucion.md).
+## Backend y aplicación móvil
 
-## Rutas principales de la API
+Consulta el [manual de instalación y ejecución](docs/manuales/instalacion-y-ejecucion.md) para requisitos, cadena de conexión, comandos .NET, endpoints, pruebas manuales y limitaciones.
+
+La API utiliza la clave `ConnectionStrings:ConexionSQL` para la conexión SQL Server. No publiques contraseñas ni cadenas privadas. El código móvil observado solicita permiso de cámara y muestra la fotografía capturada; no se identificó integración HTTP con la API ni un motor de reconocimiento facial.
+
+## Endpoints de la API identificados en el código fuente entregado
 
 | Método | Ruta | Descripción |
 |---|---|---|
@@ -66,20 +60,14 @@ La API permite registrar, consultar, modificar y desactivar trabajadores; regist
 | GET | `/api/Trabajadores/{ci}` | Buscar por CI |
 | PUT | `/api/Trabajadores/{id}` | Actualizar trabajador |
 | PATCH | `/api/Trabajadores/{id}/desactivar` | Desactivar trabajador |
-| POST | `/api/Marcaciones` | Crear marcación |
+| POST | `/api/Marcaciones` | Registrar marcación |
 | GET | `/api/Marcaciones` | Listar marcaciones |
 | GET | `/api/Marcaciones?fecha=AAAA-MM-DD` | Filtrar por fecha |
 | GET | `/api/Marcaciones/{ci}` | Historial por CI |
 | GET | `/api/Marcaciones/reporte?fechaInicio=AAAA-MM-DD&fechaFin=AAAA-MM-DD` | Conteos por trabajador y periodo |
 
-## Configuración y seguridad
+El reporte cuenta marcaciones; no calcula horas trabajadas, tardanzas ni ausencias. Antes de utilizar el sistema con trabajadores reales se deben implementar autenticación, autorización, protección de datos personales y biométricos, auditoría y pruebas de seguridad.
 
-La API lee su conexión SQL Server desde la clave `ConexionSQL`. Usa una configuración local o User Secrets para credenciales; no guardes secretos en Git. El proyecto es una base de desarrollo, no un sistema listo para producción. Antes de usar datos reales se deben añadir autenticación, autorización, HTTPS correctamente configurado, protección de datos personales/biométricos, auditoría y pruebas de seguridad.
+## Pruebas y reproducibilidad
 
-## Pruebas
-
-No se incluye actualmente un proyecto de pruebas unitarias o de integración. El manual describe comprobaciones manuales de los endpoints y la base de datos. La ejecución debe verificarse en el entorno del desarrollador; no se afirma que haya sido ejecutada en un entorno limpio de CI.
-
-## Alcance futuro
-
-La identificación facial, el flujo completo desde el teléfono Android hasta la API, autenticación/autorización y cálculos avanzados de asistencia son trabajo pendiente. Los diagramas o descripciones de esas capacidades deben entenderse como diseño objetivo y no como funcionalidad entregada.
+No se encontró un proyecto de pruebas automatizadas en el material fuente. El manual describe pruebas manuales de endpoints y comprobaciones en SQL Server. Aún falta incorporar los proyectos fuente al repositorio y verificar la instalación desde un clon limpio.
