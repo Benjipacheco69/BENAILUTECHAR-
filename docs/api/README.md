@@ -1,85 +1,70 @@
-# API del servidor
+# API ASP.NET Core
 
-## Estado
-Existe una primera versión de la API desarrollada con C# / ASP.NET Core Web API, conectada a SQL Server mediante Microsoft.Data.SqlClient. Los endpoints descritos se probaron localmente mediante solicitudes HTTP y el navegador.
+## Estado y configuración
 
-El código fuente todavía no está incorporado en src/backend de este repositorio. Esta página documenta el comportamiento de la versión local probada; no significa que el backend esté publicado ni conectado con Android.
+La API fuente está en `src/backend/SistemaAsistenciaAPI/`. Utiliza ASP.NET Core sobre .NET 10 y SQL Server mediante `Microsoft.Data.SqlClient`. La configuración de conexión se lee desde `ConnectionStrings:ConexionSQL`.
 
-## Configuración local
-La dirección base depende del perfil de ejecución de Visual Studio. En las pruebas realizadas se utilizó https://localhost:7049. Si el puerto cambia, se debe utilizar la dirección que muestra Visual Studio. La API debe permanecer ejecutándose mientras se realizan las solicitudes.
+El perfil local utiliza HTTPS `https://localhost:7049` y HTTP `http://localhost:5241`. La ruta `GET /api/conexion` comprueba la conexión. En entorno Development se publica el documento OpenAPI en `/openapi/v1.json`; no se configura Swagger UI.
 
-La cadena de conexión de SQL Server se configura localmente. No subir al repositorio cadenas de conexión que incluyan nombres de equipos, credenciales o datos privados.
+Configura tu instancia SQL Server en `appsettings.json` o con User Secrets. Nunca subas credenciales.
 
 ## Trabajadores
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| POST | /api/Trabajadores | Registrar un trabajador |
-| GET | /api/Trabajadores | Listar trabajadores |
-| GET | /api/Trabajadores/{ci} | Buscar trabajador por CI |
-| PUT | /api/Trabajadores/{id} | Modificar datos del trabajador |
-| PATCH | /api/Trabajadores/{id}/desactivar | Desactivar un trabajador |
+| POST | `/api/Trabajadores` | Registrar trabajador |
+| GET | `/api/Trabajadores` | Listar trabajadores |
+| GET | `/api/Trabajadores/{ci}` | Buscar trabajador activo por CI |
+| PUT | `/api/Trabajadores/{id}` | Modificar datos |
+| PATCH | `/api/Trabajadores/{id}/desactivar` | Desactivar trabajador |
 
 Ejemplo de registro:
 
-    POST /api/Trabajadores
-    Content-Type: application/json
+```http
+POST /api/Trabajadores
+Content-Type: application/json
 
-    {
-      "ci": "7654321",
-      "nombres": "Maria Elena",
-      "apellidos": "Lopez"
-    }
+{
+  "ci": "7654321",
+  "nombres": "Maria",
+  "apellidos": "Lopez"
+}
+```
 
 ## Marcaciones
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| POST | /api/Marcaciones | Registrar entrada o salida |
-| GET | /api/Marcaciones | Consultar todas las marcaciones |
-| GET | /api/Marcaciones?fecha=AAAA-MM-DD | Consultar marcaciones de una fecha |
-| GET | /api/Marcaciones/reporte?fechaInicio=AAAA-MM-DD&fechaFin=AAAA-MM-DD | Obtener resumen por trabajador y periodo |
-| GET | /api/Marcaciones/{ci} | Consultar historial por CI |
+| POST | `/api/Marcaciones` | Registrar entrada o salida |
+| GET | `/api/Marcaciones` | Consultar todas las marcaciones |
+| GET | `/api/Marcaciones?fecha=AAAA-MM-DD` | Filtrar por fecha |
+| GET | `/api/Marcaciones/{ci}` | Consultar historial por CI |
+| GET | `/api/Marcaciones/reporte?fechaInicio=AAAA-MM-DD&fechaFin=AAAA-MM-DD` | Conteos por trabajador y periodo |
 
-Ejemplo para registrar una marcación:
+Ejemplo:
 
-    POST /api/Marcaciones
-    Content-Type: application/json
+```http
+POST /api/Marcaciones
+Content-Type: application/json
 
-    {
-      "ci": "7654321",
-      "tipo": "ENTRADA"
-    }
+{
+  "ci": "7654321",
+  "tipo": "ENTRADA"
+}
+```
 
-El campo tipo admite ENTRADA o SALIDA. La versión actual comprueba que el trabajador exista y esté activo, y que las marcaciones alternen entre entrada y salida durante el día. La primera marcación del día debe ser ENTRADA.
+El campo `tipo` admite `ENTRADA` o `SALIDA`. El trabajador debe existir y estar activo. La primera marcación del día debe ser ENTRADA y las siguientes deben alternar entre ENTRADA y SALIDA.
 
-Ejemplo de consulta por fecha:
+El reporte devuelve total de entradas, salidas y marcaciones por trabajador. No calcula horas trabajadas, tardanzas ni ausencias.
 
-    GET /api/Marcaciones?fecha=2026-11-15
+## Pruebas manuales
 
-Ejemplo de reporte del periodo:
+Las solicitudes listas para ejecutar se encuentran en [SistemaAsistenciaAPI.http](../../src/backend/SistemaAsistenciaAPI/SistemaAsistenciaAPI.http). El equipo indica que ya verificó la compilación de los proyectos y las operaciones del backend localmente. No existe todavía un proyecto de pruebas automatizadas.
 
-    GET /api/Marcaciones/reporte?fechaInicio=2026-11-01&fechaFin=2026-11-15
+## Limitaciones
 
-El reporte devuelve, por trabajador, el número de entradas, salidas y marcaciones dentro del periodo. Los trabajadores sin marcaciones en ese periodo también aparecen con cantidades en cero.
-
-## Pruebas realizadas
-Se probaron localmente las siguientes operaciones:
-- Registro, consulta, modificación y desactivación de trabajadores.
-- Registro de entradas y salidas.
-- Consulta de historial por CI.
-- Consulta general de marcaciones.
-- Filtro por fecha.
-- Reporte por trabajador y periodo.
-
-Los resultados coincidieron con los registros de prueba guardados en SQL Server.
-
-## Limitaciones actuales
-- La API todavía no está integrada con la aplicación Android.
-- El reconocimiento facial no está implementado ni conectado al endpoint de marcaciones.
-- La solicitud de marcación de prueba utiliza el CI; por sí sola no demuestra la identidad de una persona.
-- No se ha implementado autenticación ni autorización de usuarios.
-- El reporte cuenta marcaciones, pero no calcula horas trabajadas, tardanzas, ausencias ni cumplimiento de horarios.
-- La versión documentada se probó localmente y no está desplegada para uso real.
-
-Antes de utilizar el sistema con datos reales se deben implementar controles de acceso, protección de datos, validaciones adicionales y pruebas de seguridad.
+- La app Android no consume esta API.
+- La captura de fotografía no es reconocimiento facial.
+- La marcación utiliza CI para pruebas; no verifica identidad.
+- No hay autenticación ni autorización.
+- No está desplegada para producción.
