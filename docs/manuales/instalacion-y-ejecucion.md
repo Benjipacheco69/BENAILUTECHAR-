@@ -1,169 +1,143 @@
 # Manual de instalación y ejecución
 
-## 1. Propósito
+## 1. Componentes y alcance
 
-Este documento describe cómo preparar el entorno para trabajar con Benailu Tech y cómo ejecutar la primera versión local del servidor cuando su código fuente y el script de SQL Server estén incorporados al repositorio.
+El material fuente entregado por el equipo contiene dos proyectos:
 
-**Estado de reproducibilidad:** la API fue ejecutada y probada localmente por el equipo, pero actualmente el código fuente del backend y el script SQL todavía no están publicados en `src/backend/` y `src/database/`. Por eso, una persona externa todavía no puede reproducir la ejecución únicamente clonando este repositorio. Los pasos que dependen de esos archivos se identifican como pendientes y no se presentan como pruebas ya realizadas.
+- **Aplicación móvil:** .NET MAUI, proyecto `BenailuTech`, dirigido a Android (`net10.0-android`). El código solicita permiso de cámara, captura una fotografía y la muestra en pantalla.
+- **Backend:** ASP.NET Core Web API, proyecto `SistemaAsistenciaAPI`, dirigido a `net10.0`. Utiliza `Microsoft.Data.SqlClient` y la cadena de conexión `ConnectionStrings:ConexionSQL`.
+- **Base de datos:** SQL Server. El script `src/database/01_crear_base_datos.sql` corresponde al archivo SQLQuery6.sql entregado por el equipo.
 
-## 2. Componentes y herramientas
+La cámara no implica reconocimiento facial: en el código móvil revisado no se identificó un motor biométrico ni comunicación HTTP con la API. La integración móvil-backend, el reconocimiento facial y la autenticación/autorización siguen pendientes.
 
-Para preparar el entorno se necesitará:
+> **Disponibilidad en este repositorio:** se publicó el script SQL y la documentación. El código de los proyectos MAUI y ASP.NET Core todavía debe incorporarse bajo `src/mobile/` y `src/backend/` para que la ejecución pueda hacerse únicamente después de clonar el repositorio. Mientras tanto, utilice los ZIP fuente originales entregados por el equipo.
 
-- Windows.
-- Visual Studio con las herramientas de desarrollo de ASP.NET y C#.
-- El SDK de .NET compatible con el proyecto. La versión exacta debe confirmarse en el archivo `.csproj` cuando se publique el backend.
-- Microsoft SQL Server, con una instancia local o accesible para desarrollo.
-- SQL Server Management Studio (SSMS) u otra herramienta compatible para ejecutar y revisar scripts SQL.
-- Git para clonar y actualizar el repositorio.
+## 2. Requisitos
 
-La aplicación Android y el módulo de reconocimiento facial no son necesarios para probar la API actual, porque todavía no están implementados ni integrados.
+- Windows 10/11.
+- .NET SDK 10.0.
+- Visual Studio con las cargas de trabajo de ASP.NET y .NET MAUI.
+- SQL Server (por ejemplo, SQL Server Express) y SQL Server Management Studio (SSMS) o herramienta equivalente.
+- Android SDK, emulador o dispositivo Android para ejecutar la aplicación móvil.
+- Git.
 
-## 3. Obtener el proyecto
+Compruebe la versión del SDK:
 
-Cuando el backend esté publicado:
+```bash
+dotnet --list-sdks
+```
 
-1. Clonar el repositorio:
-   
-   ```bash
-   git clone https://github.com/Benjipacheco69/BENAILUTECHAR-.git
-   ```
+Los proyectos entregados apuntan a `net10.0` (API) y `net10.0-android` (MAUI).
 
-2. Entrar en la carpeta del proyecto:
-   
-   ```bash
-   cd BENAILUTECHAR-
-   ```
+## 3. Crear la base de datos
 
-3. Comprobar que exista el proyecto de C# dentro de `src/backend/`. Debe contener el archivo de solución (`.sln`) o de proyecto (`.csproj`) y sus archivos fuente.
+1. Inicie el servicio de SQL Server.
+2. Abra SSMS y conéctese a su instancia de desarrollo.
+3. Abra y ejecute `src/database/01_crear_base_datos.sql`.
+4. Compruebe que se creó la base `SistemaAsistencia` y las tablas `Trabajadores`, `DatosFaciales` y `Marcaciones`.
 
-**Pendiente:** actualmente `src/backend/` contiene únicamente un archivo de conservación de carpeta. El proyecto ejecutable todavía debe incorporarse.
+El script es el SQLQuery6.sql entregado por el equipo. Además de crear las tablas, inserta el trabajador de prueba CI `1234567` y una marcación ENTRADA si aún no existen. Revise el script antes de ejecutarlo en una base que contenga datos: está diseñado para desarrollo/prueba y no sustituye un procedimiento de migración de producción.
 
-## 4. Preparar la base de datos
+## 4. Configurar la conexión del backend
 
-Cuando se publique el script SQL:
-
-1. Abrir SQL Server Management Studio.
-2. Conectarse a la instancia de SQL Server que se utilizará para desarrollo.
-3. Abrir el script de creación de base de datos ubicado en `src/database/`.
-4. Revisar que el script corresponda a la versión del backend.
-5. Ejecutarlo y comprobar que se hayan creado la base de datos y las tablas necesarias.
-
-La versión local documentada utiliza información de trabajadores y marcaciones. La arquitectura también menciona una tabla `DatosFaciales` como preparación para una etapa futura; su uso no significa que el reconocimiento facial ya esté implementado.
-
-**Pendiente:** actualmente `src/database/` contiene únicamente un archivo de conservación de carpeta. El script SQL reproducible todavía debe incorporarse. El nombre definitivo del archivo y el nombre de la base de datos deben documentarse cuando se publique el script real.
-
-## 5. Configurar la conexión
-
-La API local utiliza `Microsoft.Data.SqlClient` para conectarse a SQL Server.
-
-1. Revisar en el código publicado qué nombre de configuración utiliza la aplicación para obtener la cadena de conexión.
-2. Configurar la cadena para la instancia y la base de datos de desarrollo.
-3. Guardar los datos de conexión en una configuración local no versionada o en un mecanismo seguro de secretos.
-4. Verificar que la cuenta utilizada tenga únicamente los permisos necesarios para las operaciones de desarrollo.
-
-No se deben subir al repositorio contraseñas, cadenas de conexión personales, nombres privados de equipos ni otros secretos. Tampoco se deben utilizar datos biométricos reales en las pruebas de desarrollo.
-
-**Pendiente:** la clave exacta de configuración y el procedimiento concreto deben confirmarse al publicar el código fuente. No se debe inventar un nombre de clave ni copiar una cadena de conexión de otro equipo.
-
-## 6. Restaurar y ejecutar la API
-
-Una vez que el backend esté incorporado:
-
-1. Abrir la solución o el proyecto desde Visual Studio.
-2. Esperar a que Visual Studio restaure las dependencias de NuGet. Si se trabaja desde una terminal, ejecutar `dotnet restore` desde la carpeta del proyecto.
-3. Compilar el proyecto y resolver cualquier error antes de ejecutarlo.
-4. Confirmar que SQL Server esté iniciado y que la base de datos esté disponible.
-5. Ejecutar el proyecto desde Visual Studio.
-6. Revisar la salida de ejecución para identificar la dirección local en la que quedó escuchando la API.
-
-En las pruebas locales documentadas se utilizó `https://localhost:7049`, pero el puerto puede cambiar según el perfil de ejecución. Se debe utilizar la dirección que muestre Visual Studio en el equipo donde se ejecuta el proyecto.
-
-**Pendiente:** estos pasos deberán verificarse nuevamente desde una copia limpia del repositorio cuando se publiquen el proyecto y la base de datos.
-
-## 7. Operaciones documentadas de la API
-
-Con la API en ejecución, se pueden probar las rutas descritas en [Documentación de la API](../api/README.md).
-
-| Método | Ruta | Uso |
-|---|---|---|
-| POST | `/api/Trabajadores` | Registrar un trabajador |
-| GET | `/api/Trabajadores` | Listar trabajadores |
-| GET | `/api/Trabajadores/{ci}` | Buscar trabajador por CI |
-| PUT | `/api/Trabajadores/{id}` | Modificar datos de un trabajador |
-| PATCH | `/api/Trabajadores/{id}/desactivar` | Desactivar un trabajador |
-| POST | `/api/Marcaciones` | Registrar una entrada o salida de prueba |
-| GET | `/api/Marcaciones` | Consultar marcaciones |
-| GET | `/api/Marcaciones?fecha=AAAA-MM-DD` | Filtrar por fecha |
-| GET | `/api/Marcaciones/{ci}` | Consultar historial por CI |
-| GET | `/api/Marcaciones/reporte?fechaInicio=AAAA-MM-DD&fechaFin=AAAA-MM-DD` | Obtener conteos por trabajador y periodo |
-
-Ejemplo de cuerpo JSON para registrar un trabajador:
+En el proyecto API, la clave utilizada es `ConnectionStrings:ConexionSQL`. Configure la cadena para su propia instancia SQL Server. Ejemplo para SQL Server Express con autenticación integrada:
 
 ```json
 {
+  "ConnectionStrings": {
+    "ConexionSQL": "Server=localhost\\SQLEXPRESS;Database=SistemaAsistencia;Integrated Security=True;TrustServerCertificate=True;"
+  }
+}
+```
+
+Puede usar User Secrets o variables de entorno para evitar guardar credenciales. No suba contraseñas, cadenas de conexión personales ni secretos al repositorio.
+
+## 5. Ejecutar el backend
+
+Con el proyecto fuente disponible localmente, abra `SistemaAsistenciaAPI.csproj` en Visual Studio o ejecute desde la carpeta del proyecto:
+
+```bash
+dotnet restore
+dotnet build
+dotnet run
+```
+
+La URL efectiva se muestra en la consola. El perfil de desarrollo entregado incluye `https://localhost:7049`; el puerto puede variar según el perfil y el equipo.
+
+La API expone `/api/conexion` para comprobar la conexión con SQL Server. En desarrollo también se configura OpenAPI mediante `MapOpenApi`; no se identificó una interfaz Swagger UI explícita en los paquetes/código revisados.
+
+## 6. Endpoints identificados
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| POST | `/api/Trabajadores` | Registrar trabajador |
+| GET | `/api/Trabajadores` | Listar trabajadores |
+| GET | `/api/Trabajadores/{ci}` | Buscar por CI |
+| PUT | `/api/Trabajadores/{id}` | Modificar trabajador |
+| PATCH | `/api/Trabajadores/{id}/desactivar` | Desactivar trabajador |
+| POST | `/api/Marcaciones` | Registrar entrada o salida |
+| GET | `/api/Marcaciones` | Consultar marcaciones |
+| GET | `/api/Marcaciones?fecha=AAAA-MM-DD` | Filtrar por fecha |
+| GET | `/api/Marcaciones/{ci}` | Consultar historial por CI |
+| GET | `/api/Marcaciones/reporte?fechaInicio=AAAA-MM-DD&fechaFin=AAAA-MM-DD` | Conteos por trabajador y periodo |
+
+Ejemplo de solicitud para crear un trabajador:
+
+```http
+POST /api/Trabajadores
+Content-Type: application/json
+
+{
   "ci": "7654321",
-  "nombres": "Maria Elena",
+  "nombres": "Maria",
   "apellidos": "Lopez"
 }
 ```
 
-Ejemplo de cuerpo JSON para una marcación de prueba:
+Ejemplo para registrar una entrada:
 
-```json
+```http
+POST /api/Marcaciones
+Content-Type: application/json
+
 {
   "ci": "7654321",
   "tipo": "ENTRADA"
 }
 ```
 
-El tipo debe ser `ENTRADA` o `SALIDA`. La primera marcación del día debe ser una entrada y las siguientes deben alternar entre entrada y salida, de acuerdo con las reglas descritas para la versión local.
+Para una salida, use `SALIDA`. La lógica de la API exige que la primera marcación del día sea ENTRADA y que las siguientes alternen entre ENTRADA y SALIDA.
 
-## 8. Pruebas funcionales
+## 7. Ejecutar la aplicación MAUI
 
-Las pruebas locales documentadas abarcan:
+1. Abra `BenailuTech.csproj` en Visual Studio.
+2. Seleccione un emulador o dispositivo Android.
+3. Restaure paquetes, compile y ejecute.
+4. Conceda el permiso de cámara.
+5. Pruebe los controles de captura y repetición de captura.
 
-- Registrar, listar, buscar, modificar y desactivar trabajadores.
-- Registrar entradas y salidas.
-- Comprobar la alternancia de las marcaciones durante el día.
-- Consultar el historial de un trabajador.
-- Consultar marcaciones generales.
-- Filtrar marcaciones por fecha.
-- Generar un resumen de entradas, salidas y total de marcaciones por trabajador dentro de un periodo.
+El comportamiento observado es captura y visualización de fotografía. No se debe presentar como identificación facial ni como registro de asistencia integrado.
 
-Para repetirlas, utilizar datos ficticios y comprobar tanto la respuesta de la API como los registros guardados en SQL Server. Registrar los resultados, la fecha de ejecución y cualquier error encontrado.
+## 8. Pruebas y reproducibilidad
 
-Estas pruebas describen el alcance probado localmente por el equipo; no equivalen a una prueba independiente desde una instalación limpia.
+El material entregado incluye un archivo `SistemaAsistenciaAPI.http` para pruebas manuales de endpoints. No se encontró un proyecto de pruebas automatizadas en los archivos revisados.
 
-## 9. Problemas frecuentes
+Para una verificación manual:
+- Crear un trabajador de prueba.
+- Consultarlo por CI y listar trabajadores.
+- Registrar ENTRADA y luego SALIDA.
+- Comprobar que la API rechaza una secuencia que no respete la alternancia.
+- Consultar historial, filtro por fecha y reporte.
+- Verificar los registros en SQL Server.
 
-| Problema | Qué revisar |
-|---|---|
-| La API no inicia | Errores de compilación, SDK de .NET compatible y dependencias restauradas |
-| No se conecta a SQL Server | Servicio iniciado, instancia, nombre de base de datos, permisos y cadena de conexión local |
-| La dirección local no responde | Confirmar que la API siga ejecutándose y utilizar el puerto mostrado por Visual Studio |
-| Una ruta devuelve error | Método HTTP, ruta, formato JSON y datos enviados |
-| La marcación es rechazada | Trabajador existente y activo, tipo permitido y alternancia de entrada/salida |
+Estas instrucciones describen pruebas manuales; no constituyen evidencia de una ejecución automatizada ni de una validación independiente en un equipo limpio.
 
-## 10. Limitaciones y seguridad
+## 9. Limitaciones y tareas pendientes
 
-- La API actual es un prototipo local y no está desplegada para uso real.
-- Las solicitudes de marcación de prueba utilizan el CI; no verifican la identidad mediante reconocimiento facial.
-- La aplicación Android y la integración con el servidor están pendientes.
-- El reconocimiento facial no está implementado.
-- La API todavía no cuenta con autenticación ni autorización.
-- El reporte cuenta marcaciones; no calcula horas trabajadas, tardanzas, ausencias ni cumplimiento de horarios.
-
-Antes de utilizar el sistema con trabajadores reales, se deben implementar controles de acceso, protección de las comunicaciones, manejo seguro de secretos, medidas de privacidad para los datos biométricos y pruebas de seguridad.
-
-## 11. Tareas necesarias para completar la reproducibilidad
-
-- [ ] Publicar el proyecto C# completo en `src/backend/`.
-- [ ] Incluir el archivo de solución/proyecto y documentar la versión de .NET.
-- [ ] Publicar un script SQL Server de creación de la base de datos en `src/database/`.
-- [ ] Incorporar un ejemplo de configuración sin contraseñas ni datos privados.
-- [ ] Documentar el nombre de la base de datos y la clave de configuración real.
-- [ ] Probar la instalación desde una copia limpia del repositorio.
-- [ ] Registrar los resultados de las pruebas y corregir los pasos que no funcionen.
-
-La documentación se considerará reproducible cuando una persona externa pueda clonar el repositorio, preparar SQL Server, configurar sus propios datos locales, ejecutar la API y repetir las pruebas sin depender de archivos privados del equipo.
+- Publicar el código fuente MAUI y ASP.NET Core en sus carpetas del repositorio.
+- Verificar la instalación completa desde un clon limpio.
+- Incorporar pruebas automatizadas.
+- Integrar la app móvil con la API.
+- Implementar reconocimiento facial si continúa siendo requisito.
+- Añadir autenticación, autorización, auditoría y protección de datos personales/biométricos antes de cualquier uso real.
+- El reporte actual cuenta marcaciones; no calcula horas trabajadas, tardanzas ni ausencias.
